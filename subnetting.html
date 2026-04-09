@@ -3,228 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Subnet Calc | Advanced Networking Tool</title>
+    <title>SubnetMaster Ultra | Argha Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Custom Styles for Glassmorphism & Aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --primary: #06b6d4;
+            --secondary: #6366f1;
+            --bg-dark: #020617;
+        }
+
         body {
-            background-color: #0f172a; /* Slate 950 */
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
             color: #f8fafc;
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
-        .bit-network { color: #22d3ee; font-weight: bold; } /* Cyan 400 */
-        .bit-host { color: #94a3b8; } /* Slate 400 */
+
+        .neo-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .neo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+        }
+
+        .bit-network { color: #22d3ee; font-weight: 800; text-shadow: 0 0 8px rgba(34, 211, 238, 0.4); }
+        .bit-host { color: #475569; }
         
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .status-glow {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        code, .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* Push footer to bottom */
-        main-wrapper { flex: 1; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-12">
 
-    <div class="max-w-6xl mx-auto w-full flex-grow">
-        <header class="mb-8 flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
-                    SubnetMaster Pro
-                </h1>
-                <p class="text-slate-400 text-sm">Advanced IPv4 Subnetting & Visualization Tool</p>
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+            <div class="space-y-2">
+                <div class="flex items-center gap-3">
+                    <div class="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20">
+                        <i data-lucide="shield-check" class="text-cyan-400 w-8 h-8"></i>
+                    </div>
+                    <h1 class="text-4xl font-extrabold tracking-tight text-white">
+                        SubnetMaster <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Ultra</span>
+                    </h1>
+                </div>
+                <p class="text-slate-400 font-medium ml-1 flex items-center gap-2">
+                    <span class="status-glow text-emerald-400 bg-emerald-400"></span> 
+                    Enterprise Network Intelligence Engine
+                </p>
             </div>
-            <i data-lucide="network" class="text-cyan-400 w-10 h-10"></i>
+            
+            <div class="flex gap-4">
+                <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-4 border-l-4 border-l-cyan-500">
+                    <i data-lucide="globe" class="text-slate-500"></i>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">System Status</p>
+                        <p class="text-sm font-bold text-cyan-400">Ready for Analysis</p>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
             
-            <aside class="lg:col-span-1 space-y-6">
-                <div class="glass-card p-6 shadow-xl">
-                    <div class="flex items-center gap-2 mb-4 text-cyan-400">
-                        <i data-lucide="settings-2" class="w-5 h-5"></i>
-                        <h2 class="font-semibold uppercase tracking-wider text-sm">Configuration</h2>
+            <div class="xl:col-span-4 space-y-6">
+                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-8 opacity-5">
+                        <i data-lucide="cpu" class="w-32 h-32"></i>
                     </div>
                     
-                    <div class="space-y-4">
+                    <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i> Control Unit
+                    </h2>
+
+                    <div class="space-y-5">
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1 ml-1">IP Address</label>
-                            <input type="text" id="ipInput" placeholder="192.168.1.1" 
-                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all text-white">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block ml-1">Target IPv4 Address</label>
+                            <input type="text" id="ipInput" value="192.168.1.1" 
+                                class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all text-xl font-mono">
                         </div>
                         
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1 ml-1">Subnet Mask (CIDR)</label>
-                            <select id="cidrInput" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all text-white">
-                            </select>
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block ml-1">Subnet Prefix (CIDR)</label>
+                            <select id="cidrInput" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-xl font-mono appearance-none">
+                                </select>
                         </div>
 
-                        <button onclick="calculateSubnet()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-cyan-900/20">
-                            <i data-lucide="calculator" class="w-5 h-5"></i> Calculate
-                        </button>
-                    </div>
-                </div>
-            </aside>
-
-            <div class="lg:col-span-2 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="resultsGrid">
-                    <div class="glass-card p-4 flex justify-between items-center">
-                        <div>
-                            <p class="text-xs text-slate-400 uppercase">Network Address</p>
-                            <p id="resNetwork" class="text-xl font-mono font-bold text-white">-</p>
-                        </div>
-                        <button onclick="copyToClipboard('resNetwork')" class="p-2 hover:bg-slate-700 rounded-md transition-colors">
-                            <i data-lucide="copy" class="w-4 h-4 text-slate-400"></i>
-                        </button>
-                    </div>
-                    <div class="glass-card p-4 flex justify-between items-center">
-                        <div>
-                            <p class="text-xs text-slate-400 uppercase">Subnet Mask</p>
-                            <p id="resMask" class="text-xl font-mono font-bold text-white">-</p>
-                        </div>
-                        <button onclick="copyToClipboard('resMask')" class="p-2 hover:bg-slate-700 rounded-md transition-colors">
-                            <i data-lucide="copy" class="w-4 h-4 text-slate-400"></i>
-                        </button>
-                    </div>
-                    <div class="glass-card p-4 md:col-span-2 flex justify-between items-center border-l-4 border-l-cyan-500">
-                        <div>
-                            <p class="text-xs text-slate-400 uppercase">Usable Host Range</p>
-                            <p id="resRange" class="text-lg font-mono font-bold text-cyan-400">-</p>
-                        </div>
-                        <button onclick="copyToClipboard('resRange')" class="p-2 hover:bg-slate-700 rounded-md transition-colors">
-                            <i data-lucide="copy" class="w-4 h-4 text-slate-400"></i>
+                        <button onclick="ultimateCalculate()" class="neo-button w-full py-5 rounded-2xl text-white font-extrabold text-lg uppercase tracking-wider flex items-center justify-center gap-3">
+                            <i data-lucide="zap" class="w-6 h-6"></i> Run Intelligence
                         </button>
                     </div>
                 </div>
 
-                <div class="glass-card p-6 overflow-x-auto no-scrollbar">
-                    <div class="flex items-center gap-2 mb-4 text-indigo-400">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass-panel p-5 rounded-2xl">
+                        <p class="text-[10px] uppercase text-slate-500 mb-1">IP Class</p>
+                        <p id="statClass" class="text-2xl font-black text-white">-</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl">
+                        <p class="text-[10px] uppercase text-slate-500 mb-1">Total Hosts</p>
+                        <p id="statHosts" class="text-2xl font-black text-white">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="xl:col-span-8 space-y-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-cyan-500 group hover:bg-slate-800/40 transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400"><i data-lucide="share-2" class="w-5 h-5"></i></div>
+                            <button onclick="copyToClipboard('resNetwork')" class="text-slate-600 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                        </div>
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Network ID</p>
+                        <p id="resNetwork" class="text-2xl font-mono font-bold text-white tracking-tight">-</p>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-indigo-500 group hover:bg-slate-800/40 transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400"><i data-lucide="radio" class="w-5 h-5"></i></div>
+                            <button onclick="copyToClipboard('resBroadcast')" class="text-slate-600 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                        </div>
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Broadcast Address</p>
+                        <p id="resBroadcast" class="text-2xl font-mono font-bold text-white tracking-tight">-</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                            <h3 class="text-xs font-bold text-slate-500 uppercase mb-2">Usable Host Range</h3>
+                            <p id="resRange" class="text-2xl md:text-3xl font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 tracking-tighter">-</p>
+                        </div>
+                        <div class="text-right hidden md:block">
+                            <p class="text-xs font-bold text-slate-500 uppercase mb-1">Wildcard Mask</p>
+                            <p id="resWildcard" class="text-lg font-mono text-slate-300">-</p>
+                        </div>
+                    </div>
+                    <div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden flex shadow-inner">
+                        <div id="usageBar" class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 w-0 transition-all duration-1000 ease-out"></div>
+                    </div>
+                    <div class="flex justify-between mt-3 text-[10px] font-bold text-slate-500 uppercase">
+                        <span>Gateway</span>
+                        <span>Usable Nodes</span>
+                        <span>Broadcast</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl overflow-hidden relative">
+                    <div class="flex items-center gap-2 mb-6 text-slate-300">
                         <i data-lucide="binary" class="w-5 h-5"></i>
-                        <h2 class="font-semibold uppercase tracking-wider text-sm">Binary Visualization</h2>
+                        <h3 class="text-sm font-bold uppercase tracking-widest">Binary Data Stream</h3>
                     </div>
-                    <div class="space-y-4 font-mono text-sm leading-relaxed">
-                        <div>
-                            <span class="inline-block w-24 text-slate-500 italic">IP Address:</span>
-                            <span id="binIP" class="break-all tracking-widest text-slate-300">00000000.00000000.00000000.00000000</span>
+                    <div class="space-y-4">
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5 font-mono text-xs md:text-sm overflow-x-auto no-scrollbar">
+                            <div class="flex gap-4">
+                                <span class="text-slate-600 w-16 shrink-0">IP</span>
+                                <span id="binIP" class="tracking-[0.2em]">-</span>
+                            </div>
+                            <div class="flex gap-4 mt-3">
+                                <span class="text-slate-600 w-16 shrink-0">MASK</span>
+                                <span id="binMask" class="tracking-[0.2em]">-</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="inline-block w-24 text-slate-500 italic">Mask:</span>
-                            <span id="binMask" class="break-all tracking-widest text-slate-300">00000000.00000000.00000000.00000000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card p-6">
-                    <div class="flex items-center gap-2 mb-4 text-emerald-400">
-                        <i data-lucide="layers" class="w-5 h-5"></i>
-                        <h2 class="font-semibold uppercase tracking-wider text-sm">Subnet Table (First 10)</h2>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm font-mono">
-                            <thead class="bg-slate-800/50 text-slate-400">
-                                <tr>
-                                    <th class="p-3 font-medium">#</th>
-                                    <th class="p-3 font-medium">Network Address</th>
-                                    <th class="p-3 font-medium">Range Usable</th>
-                                    <th class="p-3 font-medium">Broadcast</th>
-                                </tr>
-                            </thead>
-                            <tbody id="subnetTableBody" class="divide-y divide-slate-800">
-                                <tr><td colspan="4" class="p-8 text-center text-slate-500 italic">Calculate to generate.</td></tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="mt-8 glass-panel rounded-3xl overflow-hidden">
+            <div class="p-8 border-b border-white/5 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-400"><i data-lucide="layout-grid" class="w-5 h-5"></i></div>
+                    <h3 class="font-bold uppercase tracking-widest text-sm">Next Generation Subnet Explorer</h3>
+                </div>
+                <span class="text-[10px] bg-slate-800 px-3 py-1 rounded-full text-slate-400 font-bold uppercase">Showing 16 segments</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left font-mono text-sm">
+                    <thead>
+                        <tr class="bg-slate-900/50 text-slate-500 text-[10px] uppercase tracking-[0.2em]">
+                            <th class="p-6">Index</th>
+                            <th class="p-6">Network Range</th>
+                            <th class="p-6">Usable Hosts</th>
+                            <th class="p-6">Broadcast</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ultimateTableBody" class="divide-y divide-white/5">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="mt-16 py-12 border-t border-white/5 text-center relative">
+            <div class="flex flex-col items-center gap-6">
+                <div class="flex items-center gap-3 grayscale opacity-50">
+                    <div class="h-[1px] w-12 bg-slate-700"></div>
+                    <i data-lucide="cpu" class="w-6 h-6"></i>
+                    <div class="h-[1px] w-12 bg-slate-700"></div>
+                </div>
+                <div>
+                    <p class="text-slate-500 text-sm mb-2">Architected & Engineered with Precision</p>
+                    <p class="text-2xl font-black tracking-tighter">
+                        MADE BY <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">ARGHA</span>
+                    </p>
+                </div>
+                <div class="flex gap-4">
+                    <div class="p-2 bg-slate-900 rounded-lg border border-white/5 text-slate-400"><i data-lucide="github" class="w-4 h-4"></i></div>
+                    <div class="p-2 bg-slate-900 rounded-lg border border-white/5 text-slate-400"><i data-lucide="twitter" class="w-4 h-4"></i></div>
+                    <div class="p-2 bg-slate-900 rounded-lg border border-white/5 text-slate-400"><i data-lucide="linkedin" class="w-4 h-4"></i></div>
+                </div>
+                <p class="text-slate-600 text-[10px] uppercase tracking-[0.4em]">&copy; 2026 Argha Intelligence Systems</p>
+            </div>
+        </footer>
     </div>
 
-    <footer class="mt-12 py-6 border-t border-slate-800 text-center">
-        <div class="flex flex-col items-center gap-2">
-            <div class="flex items-center gap-2 text-slate-400 text-sm">
-                <i data-lucide="code-2" class="w-4 h-4"></i>
-                <span>Designed & Developed by</span>
-                <span class="font-bold text-cyan-400 hover:text-cyan-300 transition-colors cursor-default">Argha</span>
-            </div>
-            <p class="text-slate-600 text-xs">
-                &copy; 2026 Advanced Subnetting Tool. Built for Network Engineers.
-            </p>
-        </div>
-    </footer>
-
     <script>
-        // INIT
+        // --- BOOTSTRAP ---
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            populateCIDR();
+            initCidr();
+            ultimateCalculate(); // Run initial calc
         });
 
-        function populateCIDR() {
+        function initCidr() {
             const select = document.getElementById('cidrInput');
             for (let i = 32; i >= 1; i--) {
                 const opt = document.createElement('option');
-                opt.value = i; opt.textContent = `/${i}`;
+                opt.value = i;
+                opt.textContent = `Mask /${i} — ${getMaskFromCidr(i)}`;
                 if(i === 24) opt.selected = true;
                 select.appendChild(opt);
             }
         }
 
+        function getMaskFromCidr(cidr) {
+            const mask = (cidr === 0 ? 0 : (0xffffffff << (32 - cidr))) >>> 0;
+            return intToIp(mask);
+        }
+
+        // --- CORE ENGINE ---
         const intToIp = (int) => [(int >>> 24) & 0xff, (int >>> 16) & 0xff, (int >>> 8) & 0xff, int & 0xff].join('.');
         const ipToInt = (ip) => ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
 
         function formatBinary(int, maskBits) {
             let binStr = (int >>> 0).toString(2).padStart(32, '0');
-            let formatted = "";
+            let html = "";
             for (let i = 0; i < 32; i++) {
-                formatted += `<span class="${i < maskBits ? 'bit-network' : 'bit-host'}">${binStr[i]}</span>`;
-                if ((i + 1) % 8 === 0 && i !== 31) formatted += '.';
+                html += `<span class="${i < maskBits ? 'bit-network' : 'bit-host'}">${binStr[i]}</span>`;
+                if ((i + 1) % 8 === 0 && i !== 31) html += `<span class="text-slate-800 mx-1">.</span>`;
             }
-            return formatted;
+            return html;
         }
 
-        function calculateSubnet() {
+        function ultimateCalculate() {
             const ipVal = document.getElementById('ipInput').value.trim();
             const cidr = parseInt(document.getElementById('cidrInput').value);
             const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 
-            if (!regex.test(ipVal)) { alert("Invalid IP Format!"); return; }
+            if (!regex.test(ipVal)) {
+                alert("ERR: MALFORMED IP ADDRESS DETECTED");
+                return;
+            }
 
+            // Calculations
             const ipInt = ipToInt(ipVal);
             const maskInt = (cidr === 0 ? 0 : (0xffffffff << (32 - cidr))) >>> 0;
             const networkInt = (ipInt & maskInt) >>> 0;
             const broadcastInt = (networkInt | (~maskInt)) >>> 0;
+            const wildcardInt = (~maskInt) >>> 0;
+            const totalHosts = (broadcastInt - networkInt + 1);
+            const usableHosts = totalHosts > 2 ? totalHosts - 2 : 0;
 
-            document.getElementById('resNetwork').innerText = `${intToIp(networkInt)} /${cidr}`;
-            document.getElementById('resMask').innerText = intToIp(maskInt);
-            document.getElementById('resRange').innerText = cidr <= 30 ? `${intToIp(networkInt + 1)} - ${intToIp(broadcastInt - 1)}` : "N/A";
+            // Update Class
+            const firstOctet = parseInt(ipVal.split('.')[0]);
+            let ipClass = "D/E";
+            if (firstOctet <= 126) ipClass = "A";
+            else if (firstOctet <= 191) ipClass = "B";
+            else if (firstOctet <= 223) ipClass = "C";
+
+            // Update UI
+            document.getElementById('statClass').innerText = ipClass;
+            document.getElementById('statHosts').innerText = usableHosts.toLocaleString();
+            document.getElementById('resNetwork').innerText = intToIp(networkInt);
+            document.getElementById('resBroadcast').innerText = intToIp(broadcastInt);
+            document.getElementById('resWildcard').innerText = intToIp(wildcardInt);
+            document.getElementById('resRange').innerText = cidr <= 30 ? `${intToIp(networkInt+1)} — ${intToIp(broadcastInt-1)}` : "P-to-P Link";
+            
             document.getElementById('binIP').innerHTML = formatBinary(ipInt, cidr);
             document.getElementById('binMask').innerHTML = formatBinary(maskInt, cidr);
 
-            const tableBody = document.getElementById('subnetTableBody');
+            // Animate Bar
+            setTimeout(() => {
+                document.getElementById('usageBar').style.width = '100%';
+            }, 100);
+
+            // Populate Explorer Table
+            const tableBody = document.getElementById('ultimateTableBody');
             tableBody.innerHTML = '';
-            const subnetSize = (1 << (32 - cidr)) >>> 0;
-            for (let i = 0; i < 10; i++) {
-                let cNet = (networkInt + (i * subnetSize)) >>> 0;
-                let cBcast = (cNet + subnetSize - 1) >>> 0;
-                tableBody.innerHTML += `<tr>
-                    <td class="p-3 text-slate-500">${i + 1}</td>
-                    <td class="p-3 font-bold text-white">${intToIp(cNet)}</td>
-                    <td class="p-3 text-slate-400">${cidr <= 30 ? intToIp(cNet+1) + ' - ' + intToIp(cBcast-1) : 'N/A'}</td>
-                    <td class="p-3 text-slate-400">${intToIp(cBcast)}</td>
-                </tr>`;
+            const step = totalHosts;
+            
+            for (let i = 0; i < 16; i++) {
+                let currentNet = (networkInt + (i * step)) >>> 0;
+                let currentBcast = (currentNet + step - 1) >>> 0;
+                
+                // Cek overflow 32-bit
+                if (currentNet > 0xffffffff) break;
+
+                tableBody.innerHTML += `
+                    <tr class="group hover:bg-cyan-500/5 transition-colors">
+                        <td class="p-6 text-slate-600 font-bold">#${i + 1}</td>
+                        <td class="p-6">
+                            <div class="text-white font-bold">${intToIp(currentNet)}</div>
+                            <div class="text-[10px] text-slate-500 uppercase mt-1 tracking-wider">${cidr <= 30 ? intToIp(currentNet+1) : 'No Range'}</div>
+                        </td>
+                        <td class="p-6">
+                            <div class="flex items-center gap-3">
+                                <div class="h-1.5 w-12 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-cyan-500" style="width: ${100 - (i*5)}%"></div>
+                                </div>
+                                <span class="text-slate-400">${usableHosts.toLocaleString()}</span>
+                            </div>
+                        </td>
+                        <td class="p-6 text-slate-300 font-bold">${intToIp(currentBcast)}</td>
+                    </tr>
+                `;
             }
+            
+            lucide.createIcons();
         }
 
         function copyToClipboard(id) {
             const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(() => alert("Copied to clipboard!"));
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.currentTarget;
+                const originalInner = btn.innerHTML;
+                btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = originalInner;
+                    lucide.createIcons();
+                }, 2000);
+            });
         }
     </script>
 </body>
