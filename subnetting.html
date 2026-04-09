@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Subnet Calc | Advanced Networking Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Styles for Glassmorphism & Aesthetics */
+        body {
+            background-color: #0f172a; /* Slate 950 */
+            color: #f8fafc;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+        .bit-network { color: #22d3ee; font-weight: bold; } /* Cyan 400 */
+        .bit-host { color: #94a3b8; } /* Slate 400 */
+        
+        /* Hide scrollbar for cleaner look */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
+                    SubnetMaster Pro
+                </h1>
+                <p class="text-slate-400 text-sm">Advanced IPv4 Subnetting & Visualization Tool</p>
+            </div>
+            <i data-lucide="network" class="text-cyan-400 w-10 h-10"></i>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <aside class="lg:col-span-1 space-y-6">
+                <div class="glass-card p-6 shadow-xl">
+                    <div class="flex items-center gap-2 mb-4 text-cyan-400">
+                        <i data-lucide="settings-2" class="w-5 h-5"></i>
+                        <h2 class="font-semibold uppercase tracking-wider text-sm">Configuration</h2>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1 ml-1">IP Address</label>
+                            <input type="text" id="ipInput" placeholder="192.168.1.1" 
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all text-white">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1 ml-1">Subnet Mask (CIDR)</label>
+                            <select id="cidrInput" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all text-white">
+                                </select>
+                        </div>
+
+                        <button onclick="calculateSubnet()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-cyan-900/20">
+                            <i data-lucide="calculator" class="w-5 h-5"></i> Calculate
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-2 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="resultsGrid">
+                    <div class="glass-card p-4 flex justify-between items-center">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase">Network Address</p>
+                            <p id="resNetwork" class="text-xl font-mono font-bold text-white">-</p>
+                        </div>
+                        <button onclick="copyToClipboard('resNetwork')" class="p-2 hover:bg-slate-700 rounded-md transition-colors">
+                            <i data-lucide="copy" class="w-4 h-4 text-slate-400"></i>
+                        </button>
+                    </div>
+                    <div class="glass-card p-4 flex justify-between items-center">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase">Subnet Mask</p>
+                            <p id="resMask" class="text-xl font-mono font-bold text-white">-</p>
+                        </div>
+                        <button onclick="copyToClipboard('resMask')" class="p-2 hover:bg-slate-700 rounded-md transition-colors">
+                            <i data-lucide="copy" class="w-4 h-4 text-slate-400"></i>
+                        </button>
+                    </div>
+                    <div class="glass-card p-4 md:col-span-2 flex justify-between items-center border-l-4 border-l-cyan-500">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase">Usable Host Range</p>
+                            <p id="resRange" class="text-lg font-mono font-bold text-cyan-400">-</p>
+                        </div>
+                        <button onclick="copyToClipboard('resRange')" class="p-2 hover:bg-slate-700 rounded-md transition-colors">
+                            <i data-lucide="copy" class="w-4 h-4 text-slate-400"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 overflow-x-auto no-scrollbar">
+                    <div class="flex items-center gap-2 mb-4 text-indigo-400">
+                        <i data-lucide="binary" class="w-5 h-5"></i>
+                        <h2 class="font-semibold uppercase tracking-wider text-sm">Binary Visualization</h2>
+                    </div>
+                    <div class="space-y-4 font-mono text-sm sm:text-base leading-relaxed">
+                        <div>
+                            <span class="inline-block w-24 text-slate-500 italic">IP Address:</span>
+                            <span id="binIP" class="break-all tracking-widest text-slate-300">00000000.00000000.00000000.00000000</span>
+                        </div>
+                        <div>
+                            <span class="inline-block w-24 text-slate-500 italic">Mask:</span>
+                            <span id="binMask" class="break-all tracking-widest text-slate-300">00000000.00000000.00000000.00000000</span>
+                        </div>
+                        <div class="pt-2 border-t border-slate-700 text-xs flex gap-4">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-cyan-400 rounded-full"></span> Network Bit</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-400 rounded-full"></span> Host Bit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2 text-emerald-400">
+                            <i data-lucide="layers" class="w-5 h-5"></i>
+                            <h2 class="font-semibold uppercase tracking-wider text-sm">Subnet Table (First 10)</h2>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm font-mono">
+                            <thead class="bg-slate-800/50 text-slate-400">
+                                <tr>
+                                    <th class="p-3 font-medium">#</th>
+                                    <th class="p-3 font-medium">Network Address</th>
+                                    <th class="p-3 font-medium">Range Usable</th>
+                                    <th class="p-3 font-medium">Broadcast</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subnetTableBody" class="divide-y divide-slate-800">
+                                <tr>
+                                    <td colspan="4" class="p-8 text-center text-slate-500 italic">Please calculate to generate subnets.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            populateCIDR();
+        });
+
+        // Fill CIDR Dropdown /1 to /32
+        function populateCIDR() {
+            const select = document.getElementById('cidrInput');
+            for (let i = 32; i >= 1; i--) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = `/${i}`;
+                if(i === 24) opt.selected = true;
+                select.appendChild(opt);
+            }
+        }
+
+        // --- CORE LOGIC (JS ES6+) ---
+
+        // Convert Integer to IP String
+        const intToIp = (int) => {
+            return [ (int >>> 24) & 0xff, (int >>> 16) & 0xff, (int >>> 8) & 0xff, int & 0xff ].join('.');
+        };
+
+        // Convert IP String to Integer
+        const ipToInt = (ip) => {
+            return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+        };
+
+        // Convert Integer to Binary String with Coloring
+        function formatBinary(int, maskBits) {
+            let binStr = (int >>> 0).toString(2).padStart(32, '0');
+            let formatted = "";
+            for (let i = 0; i < 32; i++) {
+                let bitClass = i < maskBits ? 'bit-network' : 'bit-host';
+                formatted += `<span class="${bitClass}">${binStr[i]}</span>`;
+                if ((i + 1) % 8 === 0 && i !== 31) formatted += '.';
+            }
+            return formatted;
+        }
+
+        // Validate IPv4 Format
+        function isValidIP(ip) {
+            const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return regex.test(ip);
+        }
+
+        // MAIN CALCULATION FUNCTION
+        function calculateSubnet() {
+            const ipVal = document.getElementById('ipInput').value.trim();
+            const cidr = parseInt(document.getElementById('cidrInput').value);
+
+            if (!isValidIP(ipVal)) {
+                alert("Please enter a valid IPv4 address (e.g., 192.168.1.1)");
+                return;
+            }
+
+            const ipInt = ipToInt(ipVal);
+            const maskInt = (0xffffffff << (32 - cidr)) >>> 0;
+            const networkInt = (ipInt & maskInt) >>> 0;
+            const broadcastInt = (networkInt | (~maskInt)) >>> 0;
+            const numHosts = Math.max(0, (broadcastInt - networkInt) - 1);
+
+            // Update UI - Basic Info
+            document.getElementById('resNetwork').innerText = `${intToIp(networkInt)} /${cidr}`;
+            document.getElementById('resMask').innerText = intToIp(maskInt);
+            
+            if (cidr <= 30) {
+                document.getElementById('resRange').innerText = `${intToIp(networkInt + 1)} - ${intToIp(broadcastInt - 1)}`;
+            } else {
+                document.getElementById('resRange').innerText = "N/A (Point-to-Point)";
+            }
+
+            // Update UI - Binary Visualization
+            document.getElementById('binIP').innerHTML = formatBinary(ipInt, cidr);
+            document.getElementById('binMask').innerHTML = formatBinary(maskInt, cidr);
+
+            // Update UI - Subnet Table Generator (First 10 subnets for performance)
+            const tableBody = document.getElementById('subnetTableBody');
+            tableBody.innerHTML = '';
+            
+            const subnetSize = (1 << (32 - cidr)) >>> 0;
+            // Let's assume user wants to see subnets based on the "Class" of the IP provided
+            // For simplicity, we show the next 10 subnets from the current network
+            for (let i = 0; i < 10; i++) {
+                let currentNet = (networkInt + (i * subnetSize)) >>> 0;
+                let currentBcast = (currentNet + subnetSize - 1) >>> 0;
+                
+                let row = `
+                    <tr class="hover:bg-slate-800 transition-colors">
+                        <td class="p-3 text-slate-500">${i + 1}</td>
+                        <td class="p-3 font-bold text-white">${intToIp(currentNet)}</td>
+                        <td class="p-3 text-slate-400">${cidr <= 30 ? intToIp(currentNet+1) + ' - ' + intToIp(currentBcast-1) : 'N/A'}</td>
+                        <td class="p-3 text-slate-400">${intToIp(currentBcast)}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            }
+        }
+
+        // Copy to Clipboard Utility
+        function copyToClipboard(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied: " + text);
+            });
+        }
+    </script>
+</body>
+</html>
