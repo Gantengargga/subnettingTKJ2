@@ -3,377 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SubnetMaster Ultra | Argha Edition</title>
+    <title>SubnetMaster Grandmaster | Argha Dev</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
         
-        :root {
-            --primary: #06b6d4;
-            --secondary: #6366f1;
-            --bg-dark: #020617;
-        }
-
         body {
-            background-color: var(--bg-dark);
+            background-color: #020617;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 100% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 0% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
             color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            min-height: 100vh;
         }
 
         .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .neo-button {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .neo-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
-        }
-
-        .bit-network { color: #22d3ee; font-weight: 800; text-shadow: 0 0 8px rgba(34, 211, 238, 0.4); }
-        .bit-host { color: #475569; }
+        .neon-border-cyan { border-left: 4px solid #06b6d4; }
+        .neon-border-indigo { border-left: 4px solid #6366f1; }
         
-        .status-glow {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 10px currentColor;
+        .tab-active {
+            border-bottom: 2px solid #06b6d4;
+            color: #06b6d4;
         }
 
-        code, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        /* Scanline effect for hacker feel */
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(6, 182, 212, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan { from { top: 0; } to { top: 100%; } }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="p-4 md:p-12">
+<body class="p-4 lg:p-10 min-h-screen">
+    <div class="scanline"></div>
 
-    <div class="max-w-7xl mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-            <div class="space-y-2">
-                <div class="flex items-center gap-3">
-                    <div class="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20">
-                        <i data-lucide="shield-check" class="text-cyan-400 w-8 h-8"></i>
-                    </div>
-                    <h1 class="text-4xl font-extrabold tracking-tight text-white">
-                        SubnetMaster <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Ultra</span>
-                    </h1>
+    <div class="max-w-[1400px] mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div class="flex items-center gap-4">
+                <div class="bg-gradient-to-br from-cyan-500 to-indigo-600 p-4 rounded-2xl shadow-lg shadow-cyan-500/20">
+                    <i data-lucide="cpu" class="text-white w-8 h-8"></i>
                 </div>
-                <p class="text-slate-400 font-medium ml-1 flex items-center gap-2">
-                    <span class="status-glow text-emerald-400 bg-emerald-400"></span> 
-                    Enterprise Network Intelligence Engine
-                </p>
+                <div>
+                    <h1 class="text-3xl font-black tracking-tighter">SUB-CORE <span class="text-cyan-400">v3.0</span></h1>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-[0.3em]">Mastered by Argha</p>
+                </div>
             </div>
             
-            <div class="flex gap-4">
-                <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-4 border-l-4 border-l-cyan-500">
-                    <i data-lucide="globe" class="text-slate-500"></i>
-                    <div>
-                        <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">System Status</p>
-                        <p class="text-sm font-bold text-cyan-400">Ready for Analysis</p>
-                    </div>
-                </div>
+            <div class="flex items-center gap-3 glass-panel p-2 rounded-xl border border-white/5">
+                <button onclick="downloadResults()" class="flex items-center gap-2 px-4 py-2 hover:bg-white/5 rounded-lg transition-all text-xs font-bold uppercase">
+                    <i data-lucide="download" class="w-4 h-4 text-cyan-400"></i> Export Data
+                </button>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <div class="xl:col-span-4 space-y-6">
-                <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-8 opacity-5">
-                        <i data-lucide="cpu" class="w-32 h-32"></i>
+            <div class="lg:col-span-4 space-y-6">
+                <div class="glass-panel p-8 rounded-[2rem] shadow-2xl relative overflow-hidden">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i data-lucide="activity" class="text-cyan-400 w-5 h-5"></i>
+                        <h2 class="font-bold text-sm uppercase tracking-widest">Analyzer Engine</h2>
                     </div>
                     
-                    <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
-                        <i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i> Control Unit
-                    </h2>
-
-                    <div class="space-y-5">
+                    <div class="space-y-6">
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block ml-1">Target IPv4 Address</label>
-                            <input type="text" id="ipInput" value="192.168.1.1" 
-                                class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all text-xl font-mono">
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Base IP Node</label>
+                            <input type="text" id="ipInput" value="172.16.0.1" 
+                                class="w-full bg-slate-900 border border-white/10 rounded-xl px-5 py-4 focus:ring-2 focus:ring-cyan-500 outline-none font-mono text-xl">
                         </div>
                         
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block ml-1">Subnet Prefix (CIDR)</label>
-                            <select id="cidrInput" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-xl font-mono appearance-none">
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">CIDR Prefix</label>
+                            <select id="cidrInput" class="w-full bg-slate-900 border border-white/10 rounded-xl px-5 py-4 focus:ring-2 focus:ring-cyan-500 outline-none font-mono text-xl appearance-none">
                                 </select>
                         </div>
 
-                        <button onclick="ultimateCalculate()" class="neo-button w-full py-5 rounded-2xl text-white font-extrabold text-lg uppercase tracking-wider flex items-center justify-center gap-3">
-                            <i data-lucide="zap" class="w-6 h-6"></i> Run Intelligence
+                        <button onclick="runMasterCalc()" class="w-full bg-cyan-500 hover:bg-cyan-400 py-5 rounded-2xl text-slate-950 font-black text-sm uppercase tracking-widest shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
+                            Initialize Subnet Protocol <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <p class="text-[10px] uppercase text-slate-500 mb-1">IP Class</p>
-                        <p id="statClass" class="text-2xl font-black text-white">-</p>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="glass-panel p-6 rounded-2xl neon-border-cyan">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Network Type</p>
+                        <div id="resNetType" class="text-xl font-black mt-1 text-cyan-400 italic">Detecting...</div>
                     </div>
-                    <div class="glass-panel p-5 rounded-2xl">
-                        <p class="text-[10px] uppercase text-slate-500 mb-1">Total Hosts</p>
-                        <p id="statHosts" class="text-2xl font-black text-white">-</p>
+                    <div class="glass-panel p-6 rounded-2xl neon-border-indigo">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">IP Specification</p>
+                        <div id="resIpSpec" class="text-xl font-black mt-1 text-indigo-400 tracking-tighter">-</div>
                     </div>
                 </div>
             </div>
 
-            <div class="xl:col-span-8 space-y-6">
+            <div class="lg:col-span-8 space-y-6">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-cyan-500 group hover:bg-slate-800/40 transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400"><i data-lucide="share-2" class="w-5 h-5"></i></div>
-                            <button onclick="copyToClipboard('resNetwork')" class="text-slate-600 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
-                        </div>
-                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Network ID</p>
-                        <p id="resNetwork" class="text-2xl font-mono font-bold text-white tracking-tight">-</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="glass-panel p-6 rounded-3xl">
+                        <i data-lucide="users" class="w-5 h-5 mx-auto mb-2 text-slate-500"></i>
+                        <p id="totalHosts" class="text-2xl font-black">0</p>
+                        <p class="text-[9px] uppercase font-bold text-slate-500">Usable Hosts</p>
                     </div>
-
-                    <div class="glass-panel p-6 rounded-3xl border-t-4 border-t-indigo-500 group hover:bg-slate-800/40 transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400"><i data-lucide="radio" class="w-5 h-5"></i></div>
-                            <button onclick="copyToClipboard('resBroadcast')" class="text-slate-600 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
-                        </div>
-                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Broadcast Address</p>
-                        <p id="resBroadcast" class="text-2xl font-mono font-bold text-white tracking-tight">-</p>
+                    <div class="glass-panel p-6 rounded-3xl">
+                        <i data-lucide="layers" class="w-5 h-5 mx-auto mb-2 text-slate-500"></i>
+                        <p id="subnetMaskShort" class="text-2xl font-black">0.0.0.0</p>
+                        <p class="text-[9px] uppercase font-bold text-slate-500">Subnet Mask</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-3xl">
+                        <i data-lucide="target" class="w-5 h-5 mx-auto mb-2 text-slate-500"></i>
+                        <p id="wildcardRes" class="text-2xl font-black">0.0.0.0</p>
+                        <p class="text-[9px] uppercase font-bold text-slate-500">Wildcard Mask</p>
                     </div>
                 </div>
 
-                <div class="glass-panel p-8 rounded-3xl">
-                    <div class="flex justify-between items-end mb-6">
-                        <div>
-                            <h3 class="text-xs font-bold text-slate-500 uppercase mb-2">Usable Host Range</h3>
-                            <p id="resRange" class="text-2xl md:text-3xl font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 tracking-tighter">-</p>
-                        </div>
-                        <div class="text-right hidden md:block">
-                            <p class="text-xs font-bold text-slate-500 uppercase mb-1">Wildcard Mask</p>
-                            <p id="resWildcard" class="text-lg font-mono text-slate-300">-</p>
-                        </div>
+                <div class="glass-panel rounded-[2rem] p-8">
+                    <div class="flex border-b border-white/5 mb-8 gap-8">
+                        <button class="tab-active pb-4 text-xs font-black uppercase tracking-widest">Main Analysis</button>
+                        <button class="pb-4 text-slate-500 text-xs font-black uppercase tracking-widest cursor-not-allowed">Visual Topology (Coming Soon)</button>
                     </div>
-                    <div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden flex shadow-inner">
-                        <div id="usageBar" class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 w-0 transition-all duration-1000 ease-out"></div>
-                    </div>
-                    <div class="flex justify-between mt-3 text-[10px] font-bold text-slate-500 uppercase">
-                        <span>Gateway</span>
-                        <span>Usable Nodes</span>
-                        <span>Broadcast</span>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div class="space-y-6">
+                            <div class="group">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-emerald-500 rounded-full"></span> Network ID
+                                </label>
+                                <div id="resNetwork" class="text-2xl font-mono font-bold mt-1 text-white select-all">0.0.0.0</div>
+                            </div>
+                            <div class="group">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-rose-500 rounded-full"></span> Broadcast
+                                </label>
+                                <div id="resBroadcast" class="text-2xl font-mono font-bold mt-1 text-white select-all">0.0.0.0</div>
+                            </div>
+                        </div>
+                        <div class="bg-black/30 p-6 rounded-2xl border border-white/5 space-y-4">
+                            <h4 class="text-[10px] font-black text-slate-500 uppercase">Binary Stream Analysis</h4>
+                            <div id="binIP" class="font-mono text-[10px] break-all tracking-[0.3em] leading-relaxed">-</div>
+                            <div id="binMask" class="font-mono text-[10px] break-all tracking-[0.3em] leading-relaxed border-t border-white/5 pt-2 text-slate-500">-</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="glass-panel p-8 rounded-3xl overflow-hidden relative">
-                    <div class="flex items-center gap-2 mb-6 text-slate-300">
-                        <i data-lucide="binary" class="w-5 h-5"></i>
-                        <h3 class="text-sm font-bold uppercase tracking-widest">Binary Data Stream</h3>
+                <div class="glass-panel rounded-[2rem] overflow-hidden">
+                    <div class="p-6 bg-white/5 flex justify-between items-center">
+                        <h3 class="text-xs font-black uppercase tracking-[0.2em]">Segmentation Explorer</h3>
+                        <span class="text-[9px] bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-full font-bold">16 SLOTS SHOWN</span>
                     </div>
-                    <div class="space-y-4">
-                        <div class="bg-black/30 p-4 rounded-xl border border-white/5 font-mono text-xs md:text-sm overflow-x-auto no-scrollbar">
-                            <div class="flex gap-4">
-                                <span class="text-slate-600 w-16 shrink-0">IP</span>
-                                <span id="binIP" class="tracking-[0.2em]">-</span>
-                            </div>
-                            <div class="flex gap-4 mt-3">
-                                <span class="text-slate-600 w-16 shrink-0">MASK</span>
-                                <span id="binMask" class="tracking-[0.2em]">-</span>
-                            </div>
-                        </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left font-mono text-xs">
+                            <thead class="bg-slate-900/50 text-slate-500 font-bold uppercase">
+                                <tr>
+                                    <th class="p-4">Seg</th>
+                                    <th class="p-4">Network</th>
+                                    <th class="p-4">Range</th>
+                                    <th class="p-4">Broadcast</th>
+                                </tr>
+                            </thead>
+                            <tbody id="masterTableBody" class="divide-y divide-white/5">
+                                </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mt-8 glass-panel rounded-3xl overflow-hidden">
-            <div class="p-8 border-b border-white/5 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-400"><i data-lucide="layout-grid" class="w-5 h-5"></i></div>
-                    <h3 class="font-bold uppercase tracking-widest text-sm">Next Generation Subnet Explorer</h3>
-                </div>
-                <span class="text-[10px] bg-slate-800 px-3 py-1 rounded-full text-slate-400 font-bold uppercase">Showing 16 segments</span>
+        <footer class="mt-20 py-12 border-t border-white/5 flex flex-col items-center gap-6">
+            <div class="p-4 rounded-full bg-slate-900 border border-white/10">
+                <i data-lucide="command" class="w-6 h-6 text-cyan-500 animate-pulse"></i>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left font-mono text-sm">
-                    <thead>
-                        <tr class="bg-slate-900/50 text-slate-500 text-[10px] uppercase tracking-[0.2em]">
-                            <th class="p-6">Index</th>
-                            <th class="p-6">Network Range</th>
-                            <th class="p-6">Usable Hosts</th>
-                            <th class="p-6">Broadcast</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ultimateTableBody" class="divide-y divide-white/5">
-                        </tbody>
-                </table>
+            <div class="text-center">
+                <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.5em] mb-2">Engineered by the Legend</p>
+                <h2 class="text-5xl font-black italic tracking-tighter text-white">ARGHA<span class="text-cyan-500">.DEV</span></h2>
             </div>
-        </div>
-
-        <footer class="mt-16 py-12 border-t border-white/5 text-center relative">
-            <div class="flex flex-col items-center gap-6">
-                <div class="flex items-center gap-3 grayscale opacity-50">
-                    <div class="h-[1px] w-12 bg-slate-700"></div>
-                    <i data-lucide="cpu" class="w-6 h-6"></i>
-                    <div class="h-[1px] w-12 bg-slate-700"></div>
-                </div>
-                <div>
-                    <p class="text-slate-500 text-sm mb-2">Architected & Engineered with Precision</p>
-                    <p class="text-2xl font-black tracking-tighter">
-                        MADE BY <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">ARGHA</span>
-                    </p>
-                </div>
-                <div class="flex gap-4">
-                    <div class="p-2 bg-slate-900 rounded-lg border border-white/5 text-slate-400"><i data-lucide="github" class="w-4 h-4"></i></div>
-                    <div class="p-2 bg-slate-900 rounded-lg border border-white/5 text-slate-400"><i data-lucide="twitter" class="w-4 h-4"></i></div>
-                    <div class="p-2 bg-slate-900 rounded-lg border border-white/5 text-slate-400"><i data-lucide="linkedin" class="w-4 h-4"></i></div>
-                </div>
-                <p class="text-slate-600 text-[10px] uppercase tracking-[0.4em]">&copy; 2026 Argha Intelligence Systems</p>
-            </div>
+            <p class="text-slate-700 text-[10px] font-bold uppercase">&copy; 2026 Argha Intelligence Systems | No 404 Guaranteed</p>
         </footer>
     </div>
 
     <script>
-        // --- BOOTSTRAP ---
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            initCidr();
-            ultimateCalculate(); // Run initial calc
+            populateCIDR();
+            runMasterCalc();
         });
 
-        function initCidr() {
+        function populateCIDR() {
             const select = document.getElementById('cidrInput');
             for (let i = 32; i >= 1; i--) {
                 const opt = document.createElement('option');
                 opt.value = i;
-                opt.textContent = `Mask /${i} — ${getMaskFromCidr(i)}`;
+                opt.textContent = `/${i} — ${getMask(i)}`;
                 if(i === 24) opt.selected = true;
                 select.appendChild(opt);
             }
         }
 
-        function getMaskFromCidr(cidr) {
-            const mask = (cidr === 0 ? 0 : (0xffffffff << (32 - cidr))) >>> 0;
-            return intToIp(mask);
+        const intToIp = (n) => [(n>>>24)&0xff, (n>>>16)&0xff, (n>>>8)&0xff, n&0xff].join('.');
+        const ipToInt = (ip) => ip.split('.').reduce((acc, oct) => (acc << 8) + parseInt(octet), 0) >>> 0;
+        const getMask = (cidr) => (cidr === 0 ? 0 : (0xffffffff << (32 - cidr))) >>> 0;
+
+        function checkIpType(ip, first) {
+            if (first === 10) return "Private (Class A)";
+            if (first === 172 && (parseInt(ip.split('.')[1]) >= 16 && parseInt(ip.split('.')[1]) <= 31)) return "Private (Class B)";
+            if (first === 192 && ip.split('.')[1] === "168") return "Private (Class C)";
+            if (first === 127) return "Loopback Address";
+            if (first === 169 && ip.split('.')[1] === "254") return "APIPA Address";
+            return "Public Address";
         }
 
-        // --- CORE ENGINE ---
-        const intToIp = (int) => [(int >>> 24) & 0xff, (int >>> 16) & 0xff, (int >>> 8) & 0xff, int & 0xff].join('.');
-        const ipToInt = (ip) => ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
-
-        function formatBinary(int, maskBits) {
-            let binStr = (int >>> 0).toString(2).padStart(32, '0');
-            let html = "";
-            for (let i = 0; i < 32; i++) {
-                html += `<span class="${i < maskBits ? 'bit-network' : 'bit-host'}">${binStr[i]}</span>`;
-                if ((i + 1) % 8 === 0 && i !== 31) html += `<span class="text-slate-800 mx-1">.</span>`;
-            }
-            return html;
-        }
-
-        function ultimateCalculate() {
-            const ipVal = document.getElementById('ipInput').value.trim();
+        function runMasterCalc() {
+            const ip = document.getElementById('ipInput').value.trim();
             const cidr = parseInt(document.getElementById('cidrInput').value);
-            const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            const regex = /^(\d{1,3}\.){3}\d{1,3}$/;
 
-            if (!regex.test(ipVal)) {
-                alert("ERR: MALFORMED IP ADDRESS DETECTED");
-                return;
-            }
+            if(!regex.test(ip)) return alert("CRITICAL ERROR: INVALID IP STRUCTURE");
 
-            // Calculations
-            const ipInt = ipToInt(ipVal);
-            const maskInt = (cidr === 0 ? 0 : (0xffffffff << (32 - cidr))) >>> 0;
-            const networkInt = (ipInt & maskInt) >>> 0;
-            const broadcastInt = (networkInt | (~maskInt)) >>> 0;
-            const wildcardInt = (~maskInt) >>> 0;
-            const totalHosts = (broadcastInt - networkInt + 1);
-            const usableHosts = totalHosts > 2 ? totalHosts - 2 : 0;
-
-            // Update Class
-            const firstOctet = parseInt(ipVal.split('.')[0]);
-            let ipClass = "D/E";
-            if (firstOctet <= 126) ipClass = "A";
-            else if (firstOctet <= 191) ipClass = "B";
-            else if (firstOctet <= 223) ipClass = "C";
+            const ipInt = ipToInt(ip);
+            const maskInt = getMask(cidr);
+            const netInt = (ipInt & maskInt) >>> 0;
+            const bcastInt = (netInt | (~maskInt)) >>> 0;
+            const wildInt = (~maskInt) >>> 0;
+            const hosts = (bcastInt - netInt + 1);
 
             // Update UI
-            document.getElementById('statClass').innerText = ipClass;
-            document.getElementById('statHosts').innerText = usableHosts.toLocaleString();
-            document.getElementById('resNetwork').innerText = intToIp(networkInt);
-            document.getElementById('resBroadcast').innerText = intToIp(broadcastInt);
-            document.getElementById('resWildcard').innerText = intToIp(wildcardInt);
-            document.getElementById('resRange').innerText = cidr <= 30 ? `${intToIp(networkInt+1)} — ${intToIp(broadcastInt-1)}` : "P-to-P Link";
-            
-            document.getElementById('binIP').innerHTML = formatBinary(ipInt, cidr);
-            document.getElementById('binMask').innerHTML = formatBinary(maskInt, cidr);
+            document.getElementById('resNetwork').innerText = intToIp(netInt);
+            document.getElementById('resBroadcast').innerText = intToIp(bcastInt);
+            document.getElementById('subnetMaskShort').innerText = intToIp(maskInt);
+            document.getElementById('wildcardRes').innerText = intToIp(wildInt);
+            document.getElementById('totalHosts').innerText = (hosts > 2 ? hosts - 2 : 0).toLocaleString();
 
-            // Animate Bar
-            setTimeout(() => {
-                document.getElementById('usageBar').style.width = '100%';
-            }, 100);
+            // Advanced Analytics
+            const first = parseInt(ip.split('.')[0]);
+            document.getElementById('resNetType').innerText = checkIpType(ip, first);
+            document.getElementById('resIpSpec').innerText = `Binary Prefix: ${cidr} bits`;
 
-            // Populate Explorer Table
-            const tableBody = document.getElementById('ultimateTableBody');
-            tableBody.innerHTML = '';
-            const step = totalHosts;
-            
-            for (let i = 0; i < 16; i++) {
-                let currentNet = (networkInt + (i * step)) >>> 0;
-                let currentBcast = (currentNet + step - 1) >>> 0;
-                
-                // Cek overflow 32-bit
-                if (currentNet > 0xffffffff) break;
+            // Binary
+            document.getElementById('binIP').innerHTML = formatBin(ipInt, cidr);
+            document.getElementById('binMask').innerHTML = formatBin(maskInt, cidr);
 
-                tableBody.innerHTML += `
-                    <tr class="group hover:bg-cyan-500/5 transition-colors">
-                        <td class="p-6 text-slate-600 font-bold">#${i + 1}</td>
-                        <td class="p-6">
-                            <div class="text-white font-bold">${intToIp(currentNet)}</div>
-                            <div class="text-[10px] text-slate-500 uppercase mt-1 tracking-wider">${cidr <= 30 ? intToIp(currentNet+1) : 'No Range'}</div>
-                        </td>
-                        <td class="p-6">
-                            <div class="flex items-center gap-3">
-                                <div class="h-1.5 w-12 bg-slate-800 rounded-full overflow-hidden">
-                                    <div class="h-full bg-cyan-500" style="width: ${100 - (i*5)}%"></div>
-                                </div>
-                                <span class="text-slate-400">${usableHosts.toLocaleString()}</span>
-                            </div>
-                        </td>
-                        <td class="p-6 text-slate-300 font-bold">${intToIp(currentBcast)}</td>
+            // Table
+            const body = document.getElementById('masterTableBody');
+            body.innerHTML = '';
+            for(let i=0; i<16; i++) {
+                let sNet = (netInt + (i * hosts)) >>> 0;
+                let sBcast = (sNet + hosts - 1) >>> 0;
+                if(sNet > 0xffffffff) break;
+                body.innerHTML += `
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="p-4 text-slate-600 font-bold">${i}</td>
+                        <td class="p-4 text-white font-bold">${intToIp(sNet)}</td>
+                        <td class="p-4 text-slate-400">${cidr <= 30 ? intToIp(sNet+1) + '-' + intToIp(sBcast-1) : 'P2P'}</td>
+                        <td class="p-4 text-slate-500">${intToIp(sBcast)}</td>
                     </tr>
                 `;
             }
-            
             lucide.createIcons();
         }
 
-        function copyToClipboard(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.currentTarget;
-                const originalInner = btn.innerHTML;
-                btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';
-                lucide.createIcons();
-                setTimeout(() => {
-                    btn.innerHTML = originalInner;
-                    lucide.createIcons();
-                }, 2000);
-            });
+        function formatBin(int, bits) {
+            let str = (int >>> 0).toString(2).padStart(32, '0');
+            let out = "";
+            for(let i=0; i<32; i++) {
+                out += `<span class="${i < bits ? 'text-cyan-400 font-bold' : 'text-slate-700'}">${str[i]}</span>`;
+                if((i+1)%8 === 0 && i !== 31) out += " ";
+            }
+            return out;
+        }
+
+        function downloadResults() {
+            const data = {
+                ip: document.getElementById('ipInput').value,
+                network: document.getElementById('resNetwork').innerText,
+                broadcast: document.getElementById('resBroadcast').innerText,
+                type: document.getElementById('resNetType').innerText
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `subnet-argha-${Date.now()}.json`;
+            a.click();
         }
     </script>
 </body>
