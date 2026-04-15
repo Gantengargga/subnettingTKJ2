@@ -29,10 +29,6 @@
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .studio-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
         .input-field {
             background: #111111 !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -57,6 +53,7 @@
         .btn-execute:hover {
             background: #3b82f6;
             color: white;
+            transform: scale(1.02);
         }
 
         .badge-status {
@@ -69,13 +66,25 @@
             text-transform: uppercase;
         }
 
+        /* Perbaikan Visual Biner */
         .binary-bit {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 22px;
             margin: 1px;
-            border-radius: 2px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
         }
+
+        .bit-net { background: #2563eb; color: white; }
+        .bit-host { background: #1e293b; color: #475569; }
+        .bit-mask { background: #475569; color: white; }
+        .bit-off { background: #0f172a; color: #1e293b; }
     </style>
 </head>
 <body class="pb-20">
@@ -89,7 +98,7 @@
                 <h1 class="text-xl font-extrabold tracking-tight">Subnetting <span class="text-blue-500">Website</span></h1>
             </div>
             <div class="hidden md:flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                <span id="liveClock">00:00:00</span>
+                <span id="liveClock" class="mono">00:00:00</span>
             </div>
         </div>
     </nav>
@@ -99,11 +108,11 @@
             
             <div class="lg:col-span-4 space-y-6">
                 <div class="studio-card p-8">
-                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Core Configuration</h3>
+                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Core Config</h3>
                     <div class="space-y-6">
                         <div>
-                            <label class="text-[10px] font-bold uppercase text-gray-600 mb-2 block">IPv4 Host Address</label>
-                            <input type="text" id="ipInput" value="192.168.10.1" 
+                            <label class="text-[10px] font-bold uppercase text-gray-600 mb-2 block">IPv4 Address</label>
+                            <input type="text" id="ipInput" value="192.168.1.1" 
                                 class="input-field w-full px-6 py-4 rounded-2xl text-lg font-bold outline-none">
                         </div>
                         <div>
@@ -124,65 +133,53 @@
                             <span id="totalHosts" class="font-bold text-white mono">-</span>
                         </div>
                         <div class="flex justify-between border-b border-white/5 pb-3">
-                            <span class="text-sm text-gray-400">Usable Host</span>
+                            <span class="text-sm text-gray-400">Usable Range</span>
                             <span id="usableHosts" class="font-bold text-blue-400 mono">-</span>
                         </div>
                         <div class="flex justify-between border-b border-white/5 pb-3">
-                            <span class="text-sm text-gray-400">Subnet Bits</span>
-                            <span id="subnetBits" class="font-bold text-white mono">-</span>
+                            <span class="text-sm text-gray-400">IP Class</span>
+                            <span id="netClass" class="font-bold text-white mono">-</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-400">Network Class</span>
-                            <span id="netClass" class="font-bold text-blue-500 mono">-</span>
+                            <span class="text-sm text-gray-400">Status</span>
+                            <span class="font-bold text-green-500 mono">ONLINE</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-8 space-y-6">
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="studio-card p-8">
                         <p class="badge-status mb-4">Network ID</p>
                         <p id="resNet" class="text-4xl font-bold mono tracking-tighter text-white">0.0.0.0</p>
-                        <div class="mt-6 pt-6 border-t border-white/5">
-                            <p class="text-[10px] text-gray-600 uppercase mb-2">Subnet Mask</p>
-                            <p id="resMask" class="text-lg font-bold mono text-gray-300">0.0.0.0</p>
-                        </div>
+                        <p id="resMask" class="text-gray-500 text-xs mt-4 mono">Mask: 0.0.0.0</p>
                     </div>
-
                     <div class="studio-card p-8">
-                        <p class="badge-status mb-4">Broadcast Address</p>
+                        <p class="badge-status mb-4">Broadcast</p>
                         <p id="resBcast" class="text-4xl font-bold mono tracking-tighter text-white">0.0.0.0</p>
-                        <div class="mt-6 pt-6 border-t border-white/5">
-                            <p class="text-[10px] text-gray-600 uppercase mb-2">Wildcard Mask</p>
-                            <p id="resWild" class="text-lg font-bold mono text-gray-300">0.0.0.0</p>
-                        </div>
+                        <p id="resWild" class="text-gray-500 text-xs mt-4 mono">Wildcard: 0.0.0.0</p>
                     </div>
                 </div>
 
                 <div class="studio-card p-8">
-                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Binary Bit Structure</h3>
-                    <div class="space-y-4">
-                        <div id="binaryIP" class="flex flex-wrap gap-1"></div>
-                        <div id="binaryMask" class="flex flex-wrap gap-1"></div>
+                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Binary bit structure & mapping</h3>
+                    <div class="space-y-8">
+                        <div id="binaryIP" class="flex flex-wrap gap-0.5"></div>
+                        <div id="binaryMask" class="flex flex-wrap gap-0.5"></div>
                     </div>
                 </div>
 
                 <div class="studio-card overflow-hidden">
-                    <div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Network Subnetting Table</span>
-                        <div class="flex gap-2">
-                            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                            <div class="w-2 h-2 rounded-full bg-gray-700"></div>
-                        </div>
+                    <div class="p-6 border-b border-white/5 bg-white/[0.02]">
+                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Subnet Explorer</span>
                     </div>
                     <div class="overflow-x-auto max-h-[400px]">
                         <table class="w-full text-left text-xs">
                             <thead class="bg-black/50 text-gray-500 uppercase">
                                 <tr>
-                                    <th class="p-6">Index</th>
-                                    <th class="p-6">Network Range (Usable)</th>
+                                    <th class="p-6">#</th>
+                                    <th class="p-6">Network Range</th>
                                     <th class="p-6">Broadcast</th>
                                     <th class="p-6">Hosts</th>
                                 </tr>
@@ -196,16 +193,15 @@
     </main>
 
     <footer class="mt-32 px-6 border-t border-white/5 pt-20 pb-10">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-12">
-                <div>
-                    <h2 class="text-6xl font-black tracking-tighter mb-4 italic">Argha <span class="text-blue-600">Systems.</span></h2>
-                    <p class="text-gray-500 text-sm max-w-sm font-light">Advanced Network Calculation Engine v10.5</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">© 2026 Argha Intelligence Systems</p>
-                    <p class="text-[9px] text-gray-700 uppercase mt-2">Professional Network Architect Tools</p>
-                </div>
+        <div class="max-w-7xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+                <h2 class="text-4xl font-black italic">Argha <span class="text-blue-600">Systems.</span></h2>
+                <p class="text-gray-600 text-[10px] uppercase tracking-widest mt-2">© 2026 Argha Intelligence Systems | Professional Edition</p>
+            </div>
+            <div class="flex gap-4">
+                <i data-lucide="shield-check" class="text-blue-600"></i>
+                <i data-lucide="cpu" class="text-gray-700"></i>
+                <i data-lucide="globe" class="text-gray-700"></i>
             </div>
         </div>
     </footer>
@@ -221,7 +217,7 @@
             const select = document.getElementById('cidrInput');
             for(let i=32; i>=1; i--) {
                 const opt = document.createElement('option');
-                opt.value = i; opt.textContent = `/${i} Protocol`;
+                opt.value = i; opt.textContent = `/${i} Prefix`;
                 if(i===24) opt.selected = true;
                 select.appendChild(opt);
             }
@@ -230,66 +226,75 @@
 
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
-        const getMask = (cidr) => (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
 
         function renderBinary(long, cidr, targetId) {
             const container = document.getElementById(targetId);
-            container.innerHTML = `<span class="text-[9px] w-12 text-gray-600 font-bold uppercase mr-2">${targetId.includes('IP') ? 'IP' : 'Mask'}</span>`;
-            let bin = long.toString(2).padStart(32, '0');
+            const isIP = targetId.includes('IP');
+            container.innerHTML = `<span class="text-[9px] w-12 text-gray-600 font-bold uppercase mr-4">${isIP ? 'IP' : 'Mask'}</span>`;
+            
+            let binStr = long.toString(2).padStart(32, '0');
+            
             for(let i=0; i<32; i++) {
-                let color = i < cidr ? 'bg-blue-600' : 'bg-gray-800';
-                if(targetId.includes('Mask')) color = i < cidr ? 'bg-gray-400' : 'bg-gray-900';
-                container.innerHTML += `<div class="binary-bit ${color}"></div>`;
-                if((i+1)%8 === 0 && i !== 31) container.innerHTML += `<div class="w-2"></div>`;
+                let bitType = "";
+                if(isIP) {
+                    bitType = i < cidr ? 'bit-net' : 'bit-host';
+                } else {
+                    bitType = i < cidr ? 'bit-mask' : 'bit-off';
+                }
+                
+                container.innerHTML += `<div class="binary-bit ${bitType}">${binStr[i]}</div>`;
+                if((i+1)%8 === 0 && i !== 31) container.innerHTML += `<div class="w-3"></div>`;
+            }
+
+            if(isIP) {
+                const label = document.createElement('div');
+                label.className = "w-full flex mt-4 text-[9px] font-bold uppercase";
+                label.innerHTML = `
+                    <div style="width:${(cidr/32)*100}%" class="text-blue-500 border-l-2 border-blue-500 pl-2">Network: ${cidr} Bits</div>
+                    <div style="width:${((32-cidr)/32)*100}%" class="text-gray-500 border-r-2 border-gray-700 pr-2 text-right">Host: ${32-cidr} Bits</div>
+                `;
+                container.appendChild(label);
             }
         }
 
         function calculate() {
             const ipVal = document.getElementById('ipInput').value.trim();
             const cidr = parseInt(document.getElementById('cidrInput').value);
-            
             if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipVal)) return;
 
             const ipLong = ipToLong(ipVal);
-            const maskLong = getMask(cidr);
+            const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
             const netLong = ipLong & maskLong;
             const bcastLong = netLong + (0xffffffffn ^ maskLong);
             const size = bcastLong - netLong + 1n;
             const usable = size > 2n ? size - 2n : (size === 2n ? 2n : 0n);
 
-            // DATA UPDATES
             document.getElementById('resNet').innerText = longToIp(netLong);
             document.getElementById('resBcast').innerText = longToIp(bcastLong);
-            document.getElementById('resMask').innerText = longToIp(maskLong);
-            document.getElementById('resWild').innerText = longToIp(0xffffffffn ^ maskLong);
+            document.getElementById('resMask').innerText = "Subnet Mask: " + longToIp(maskLong);
+            document.getElementById('resWild').innerText = "Wildcard: " + longToIp(0xffffffffn ^ maskLong);
             
-            // ANALYTICS PANEL
             document.getElementById('totalHosts').innerText = size.toLocaleString();
             document.getElementById('usableHosts').innerText = usable.toLocaleString();
-            document.getElementById('subnetBits').innerText = cidr;
             
-            const firstOctet = Number(ipLong >> 24n);
-            let cls = "Public Network";
-            if(firstOctet === 10 || (firstOctet === 172 && Number((ipLong >> 16n) & 0xffn) >= 16) || (firstOctet === 192 && Number((ipLong >> 16n) & 0xffn) === 168)) cls = "Private Network";
-            document.getElementById('netClass').innerText = cls;
+            const first = Number(ipLong >> 24n);
+            document.getElementById('netClass').innerText = first < 128 ? 'Class A' : first < 192 ? 'Class B' : 'Class C';
 
-            // BINARY RENDER
             renderBinary(ipLong, cidr, 'binaryIP');
             renderBinary(maskLong, cidr, 'binaryMask');
 
-            // TABLE GENERATION
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
-            for(let i=0; i<20; i++) {
+            for(let i=0; i<15; i++) {
                 let sNet = netLong + (BigInt(i) * size);
                 if(sNet > 0xffffffffn) break;
                 let sBcast = sNet + size - 1n;
                 tbody.innerHTML += `
                     <tr class="hover:bg-white/[0.02]">
-                        <td class="p-6 font-bold text-gray-700">#${i+1}</td>
+                        <td class="p-6 text-gray-700 font-bold">${i+1}</td>
                         <td class="p-6">
                             <div class="text-white font-bold mono">${longToIp(sNet)}</div>
-                            <div class="text-[10px] text-gray-500 mt-1">${cidr <= 30 ? longToIp(sNet+1n) + ' - ' + longToIp(sBcast-1n) : 'P2P Link'}</div>
+                            <div class="text-[9px] text-gray-600 mt-1">Range: ${longToIp(sNet+1n)} - ${longToIp(sBcast-1n)}</div>
                         </td>
                         <td class="p-6 text-gray-400 mono">${longToIp(sBcast)}</td>
                         <td class="p-6 text-blue-500 font-bold">${usable.toLocaleString()}</td>
