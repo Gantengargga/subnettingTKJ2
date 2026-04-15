@@ -3,252 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARGHA NET-CORE v6.0 | Infinity Edition</title>
+    <title>ARGHA NEURAL-NET v7.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap');
         
         :root {
-            --primary: #06b6d4;
-            --accent: #8b5cf6;
-            --bg: #020617;
+            --glow-cyan: #06b6d4;
+            --glow-purple: #8b5cf6;
         }
 
         body {
-            background-color: var(--bg);
+            background: #020617;
             color: #e2e8f0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(90n, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        /* Background Animation */
-        .bg-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 10% 10%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-            z-index: -1;
-            animation: pulseBg 10s infinite alternate;
+        .neon-border {
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(10px);
         }
 
-        @keyframes pulseBg {
-            from { transform: scale(1); opacity: 0.5; }
-            to { transform: scale(1.1); opacity: 1; }
+        .argha-title {
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #06b6d4, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .glass {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1.5rem;
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(6, 182, 212, 0.05), transparent);
+            animation: moveScan 3s linear infinite;
+            pointer-events: none;
         }
 
-        .neon-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        @keyframes moveScan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
 
-        .neon-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-            transform: translateY(-5px);
+        .floating-card {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .code-font { font-family: 'Fira Code', monospace; }
-        
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        .floating-card:hover {
+            transform: scale(1.02) translateY(-10px);
+            border-color: var(--glow-cyan);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+        }
+
+        .bit-dot {
+            width: 8px; height: 8px; border-radius: 2px;
+        }
+
+        .progress-circle {
+            transform: rotate(-90deg);
+        }
     </style>
 </head>
-<body class="min-h-screen">
-    <div class="bg-glow"></div>
+<body class="min-h-screen p-4 md:p-10">
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-20">
+        <div class="absolute top-10 left-10 w-64 h-64 bg-cyan-500 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-10 right-10 w-64 h-64 bg-purple-500 rounded-full blur-[120px]"></div>
+    </div>
 
-    <div class="flex flex-col lg:flex-row min-h-screen">
+    <div class="max-w-7xl mx-auto relative z-10">
         
-        <aside class="w-full lg:w-80 glass m-4 lg:m-6 p-6 flex flex-col gap-6">
-            <div class="flex items-center gap-3">
-                <div class="p-3 bg-cyan-500 rounded-2xl shadow-lg shadow-cyan-500/20">
-                    <i data-lucide="zap" class="text-slate-950 w-6 h-6"></i>
-                </div>
-                <h1 class="text-xl font-extrabold tracking-tighter">ARGHA <span class="text-cyan-400">CORE</span></h1>
+        <header class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
+            <div class="relative">
+                <h1 class="text-4xl md:text-6xl font-black argha-title">ARGHA-X</h1>
+                <p class="text-[10px] tracking-[0.5em] text-cyan-500 font-bold uppercase mt-2">Neural Subnet Protocol v7.0</p>
             </div>
-
-            <div class="flex-grow space-y-6">
-                <div>
-                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Quick Reference</h3>
-                    <div class="space-y-2 max-h-64 overflow-y-auto custom-scroll pr-2">
-                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/24</span><span class="text-slate-400">254 Hosts</span></div>
-                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/25</span><span class="text-slate-400">126 Hosts</span></div>
-                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/26</span><span class="text-slate-400">62 Hosts</span></div>
-                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/27</span><span class="text-slate-400">30 Hosts</span></div>
-                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/28</span><span class="text-slate-400">14 Hosts</span></div>
-                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/30</span><span class="text-slate-400">2 Hosts</span></div>
+            <div class="flex gap-4">
+                <div class="neon-border p-4 rounded-2xl flex items-center gap-4">
+                    <div id="signal" class="w-3 h-3 bg-cyan-500 rounded-full animate-ping"></div>
+                    <div>
+                        <p class="text-[8px] text-slate-500 uppercase">System Frequency</p>
+                        <p class="text-xs font-bold">2.4 GHz ANALYZER</p>
                     </div>
                 </div>
-
-                <div class="p-4 bg-cyan-500/5 rounded-2xl border border-cyan-500/10">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] font-bold text-cyan-500">ENGINE_STATUS</span>
-                        <span class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">System ready for IPv4 deep packet analysis.</p>
-                </div>
             </div>
+        </header>
 
-            <div class="pt-6 border-t border-white/5">
-                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Operator</p>
-                <p class="text-sm font-bold text-white">ARGHA_ADMIN_01</p>
-            </div>
-        </aside>
-
-        <main class="flex-grow p-4 lg:p-6 lg:pl-0 space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="glass p-6 neon-card">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase">Target Node</p>
-                    <input type="text" id="ipInput" value="192.168.100.1" class="bg-transparent text-2xl font-bold outline-none text-white w-full code-font">
-                </div>
-                <div class="glass p-6 neon-card">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase">Subnet Mask</p>
-                    <select id="cidrInput" class="bg-transparent text-2xl font-bold outline-none text-white w-full appearance-none cursor-pointer"></select>
-                </div>
-                <button onclick="calculate()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-3xl font-black text-lg shadow-xl shadow-cyan-500/20 transition-all active:scale-95">
-                    SCAN NETWORK
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <div class="glass p-8 space-y-8">
-                    <div class="flex justify-between items-start">
-                        <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-cyan-500">Network Intelligence</h2>
-                        <i data-lucide="shield-check" class="text-cyan-500 w-5 h-5"></i>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div onclick="copy('resNet')" class="cursor-pointer group">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Network ID</p>
-                            <p id="resNet" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
+            <div class="lg:col-span-4 space-y-6">
+                <div class="neon-border p-8 rounded-3xl relative overflow-hidden floating-card">
+                    <div class="scan-line"></div>
+                    <h3 class="text-xs font-bold text-cyan-400 mb-6 flex items-center gap-2">
+                        <i data-lucide="terminal" class="w-4 h-4"></i> COMMAND_CENTER
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] text-slate-500 uppercase">Target IPv4</label>
+                            <input type="text" id="ipInput" value="10.0.0.1" 
+                                class="w-full bg-slate-900/50 border border-white/10 p-4 rounded-xl focus:outline-none focus:border-cyan-500 text-cyan-400 font-bold tracking-widest transition-all">
                         </div>
-                        <div onclick="copy('resBcast')" class="cursor-pointer group">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Broadcast</p>
-                            <p id="resBcast" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
+                        <div class="space-y-2">
+                            <label class="text-[10px] text-slate-500 uppercase">Mask Prefix</label>
+                            <select id="cidrInput" class="w-full bg-slate-900/50 border border-white/10 p-4 rounded-xl focus:outline-none focus:border-purple-500 text-purple-400 font-bold transition-all appearance-none cursor-pointer"></select>
                         </div>
-                        <div onclick="copy('resMask')" class="cursor-pointer group">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Netmask</p>
-                            <p id="resMask" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
-                        </div>
-                        <div onclick="copy('resWild')" class="cursor-pointer group">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Wildcard</p>
-                            <p id="resWild" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
-                        </div>
-                    </div>
-
-                    <div class="p-6 bg-white/5 rounded-3xl">
-                        <div class="flex justify-between items-end mb-4">
-                            <div>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Total Usable Hosts</p>
-                                <p id="resHosts" class="text-4xl font-black text-white">0</p>
-                            </div>
-                            <div class="text-right">
-                                <p id="resClass" class="text-xs font-bold text-cyan-500">CLASS -</p>
-                                <p id="resType" class="text-[10px] text-slate-500">PUBLIC</p>
-                            </div>
-                        </div>
-                        <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-                            <div id="usageBar" class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 w-0 transition-all duration-1000"></div>
-                        </div>
+                        <button onclick="executeNeuralCalc()" class="w-full bg-gradient-to-r from-cyan-600 to-purple-600 p-5 rounded-xl font-black text-xs uppercase tracking-[0.3em] hover:brightness-125 transition-all active:scale-95 shadow-lg shadow-cyan-500/20">
+                            Execute Analysis
+                        </button>
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="glass p-8 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <i data-lucide="binary" class="w-32 h-32"></i>
-                        </div>
-                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] mb-6 text-slate-400">Binary Bitstream</h3>
-                        <div id="binaryBox" class="space-y-3 font-mono text-xs md:text-sm tracking-widest">
-                            </div>
+                <div class="neon-border p-8 rounded-3xl flex items-center justify-between floating-card">
+                    <div>
+                        <p class="text-[10px] text-slate-500 uppercase">Host Payload</p>
+                        <h4 id="resHosts" class="text-3xl font-bold text-white">0</h4>
+                        <p class="text-[9px] text-cyan-500 mt-2 font-bold">ADDRESSES AVAILABLE</p>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="glass p-6">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Network Type</p>
-                            <p id="resSpec" class="font-bold text-white tracking-wide">STANDARD</p>
-                        </div>
-                        <div class="glass p-6">
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Efficiency</p>
-                            <p id="resEff" class="font-bold text-emerald-400 tracking-wide">OPTIMAL</p>
-                        </div>
+                    <div class="relative w-20 h-20">
+                        <svg class="w-20 h-20 progress-circle">
+                            <circle cx="40" cy="40" r="35" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent"/>
+                            <circle cx="40" cy="40" r="35" stroke="url(#cyanGradient)" stroke-width="8" fill="transparent" stroke-dasharray="219" stroke-dashoffset="50" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="cyanGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#06b6d4" />
+                                    <stop offset="100%" stop-color="#8b5cf6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <i data-lucide="cpu" class="w-6 h-6 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="glass overflow-hidden">
-                <div class="p-6 border-b border-white/5 flex justify-between items-center">
-                    <h3 class="text-xs font-bold uppercase tracking-widest">Next-Gen Segment Explorer</h3>
-                    <div class="flex gap-2">
-                        <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                        <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
-                        <div class="w-2 h-2 bg-rose-500 rounded-full"></div>
+            <div class="lg:col-span-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="neon-border p-8 rounded-3xl floating-card group">
+                        <div class="flex justify-between mb-4">
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Network_ID</span>
+                            <i data-lucide="hash" class="w-4 h-4 text-cyan-500"></i>
+                        </div>
+                        <p id="resNet" class="text-3xl font-bold tracking-tighter text-white group-hover:text-cyan-400 transition-colors">0.0.0.0</p>
+                        <div class="mt-4 flex gap-1" id="binNetDots"></div>
+                    </div>
+
+                    <div class="neon-border p-8 rounded-3xl floating-card group">
+                        <div class="flex justify-between mb-4">
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Broadcast_ADDR</span>
+                            <i data-lucide="radio" class="w-4 h-4 text-purple-500"></i>
+                        </div>
+                        <p id="resBcast" class="text-3xl font-bold tracking-tighter text-white group-hover:text-purple-400 transition-colors">0.0.0.0</p>
+                        <div class="mt-4 flex gap-1" id="binBcastDots"></div>
                     </div>
                 </div>
-                <div class="overflow-x-auto max-h-[400px] custom-scroll">
-                    <table class="w-full text-left font-mono text-xs">
-                        <thead class="bg-white/5 sticky top-0 backdrop-blur-md">
-                            <tr class="text-slate-500">
-                                <th class="p-5">ID</th>
-                                <th class="p-5">NETWORK RANGE</th>
-                                <th class="p-5">BROADCAST</th>
-                                <th class="p-5">NODES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody" class="divide-y divide-white/5"></tbody>
-                    </table>
+
+                <div class="neon-border p-8 rounded-3xl floating-card">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Usable Range Explorer</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="text-center md:text-left">
+                            <p class="text-[9px] text-slate-500 uppercase">First Host</p>
+                            <p id="resStart" class="text-xl font-bold text-cyan-400">0.0.0.0</p>
+                        </div>
+                        <div class="h-[1px] w-full md:w-20 bg-slate-800"></div>
+                        <div class="text-center md:text-right">
+                            <p class="text-[9px] text-slate-500 uppercase">Last Host</p>
+                            <p id="resEnd" class="text-xl font-bold text-purple-400">0.0.0.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="neon-border rounded-3xl overflow-hidden floating-card">
+                    <div class="p-6 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                        <span class="text-xs font-bold uppercase tracking-widest">Segment_Matrix</span>
+                        <div class="flex gap-2">
+                            <span class="w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_8px_#06b6d4]"></span>
+                            <span class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_#8b5cf6]"></span>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto max-h-[400px]">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-900/80 sticky top-0">
+                                <tr class="text-slate-500 uppercase font-black">
+                                    <th class="p-6 tracking-widest">ID</th>
+                                    <th class="p-6 tracking-widest">Network_Range</th>
+                                    <th class="p-6 tracking-widest">Broadcast</th>
+                                    <th class="p-6 tracking-widest">Metric</th>
+                                </tr>
+                            </thead>
+                            <tbody id="matrixTable" class="divide-y divide-white/5"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <footer class="text-center py-12">
-                <p class="text-[10px] text-slate-600 font-bold uppercase tracking-[0.8em] mb-4">Master Design</p>
-                <h2 class="text-7xl font-black italic tracking-tighter text-white opacity-20">ARGHA.SYSTEMS</h2>
-            </footer>
-        </main>
+        <footer class="mt-20 py-20 text-center relative">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
+            <div class="relative bg-[#020617] px-8 inline-block">
+                <p class="text-[10px] text-slate-500 uppercase tracking-[1em] mb-4">Architected & Developed by</p>
+                <h2 class="text-5xl font-black italic argha-title">ARGHA-DEV</h2>
+                <p class="text-[8px] text-slate-600 font-bold uppercase tracking-widest mt-4">&copy; 2026 Global Neural Architecture</p>
+            </div>
+        </footer>
     </div>
 
     <script>
-        // INIT DATA
-        const cidrEl = document.getElementById('cidrInput');
-        for(let i=32; i>=1; i--) {
-            let o = document.createElement('option');
-            o.value = i; o.textContent = `/${i}`;
-            if(i===24) o.selected = true;
-            cidrEl.appendChild(o);
+        document.addEventListener('DOMContentLoaded', () => {
+            initHUD();
+            executeNeuralCalc();
+        });
+
+        function initHUD() {
+            const select = document.getElementById('cidrInput');
+            for(let i=32; i>=1; i--) {
+                const opt = document.createElement('option');
+                opt.value = i; opt.textContent = `PREFIX_PROTOCOL: /${i}`;
+                if(i===24) opt.selected = true;
+                select.appendChild(opt);
+            }
+            lucide.createIcons();
         }
 
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
-        const getMask = (cidr) => (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
 
-        function formatBinary(long, cidr) {
-            let b = long.toString(2).padStart(32, '0');
-            let h = "";
+        function createDots(long) {
+            let html = "";
+            let bin = long.toString(2).padStart(32, '0');
             for(let i=0; i<32; i++) {
-                let color = i < cidr ? 'text-cyan-400 font-bold' : 'text-slate-700';
-                h += `<span class="${color}">${b[i]}</span>`;
-                if((i+1)%8 === 0 && i !== 31) h += " ";
+                let color = bin[i] === '1' ? 'bg-cyan-500 shadow-[0_0_5px_#06b6d4]' : 'bg-slate-800';
+                html += `<div class="bit-dot ${color}"></div>`;
+                if((i+1)%8 === 0) html += `<div class="w-2"></div>`;
             }
-            return h;
+            return html;
         }
 
-        function calculate() {
-            const ipVal = document.getElementById('ipInput').value.trim();
+        function executeNeuralCalc() {
+            const ip = document.getElementById('ipInput').value.trim();
             const cidr = parseInt(document.getElementById('cidrInput').value);
             
-            if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipVal)) return alert("MALFORMED IP");
+            if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) return;
 
-            const ipLong = ipToLong(ipVal);
-            const maskLong = getMask(cidr);
+            const ipLong = ipToLong(ip);
+            const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
             const netLong = ipLong & maskLong;
             const bcastLong = netLong + (0xffffffffn ^ maskLong);
             const total = bcastLong - netLong + 1n;
@@ -257,57 +262,39 @@
             // UI
             document.getElementById('resNet').innerText = longToIp(netLong);
             document.getElementById('resBcast').innerText = longToIp(bcastLong);
-            document.getElementById('resMask').innerText = longToIp(maskLong);
-            document.getElementById('resWild').innerText = longToIp(0xffffffffn ^ maskLong);
             document.getElementById('resHosts').innerText = Number(usable).toLocaleString();
+            document.getElementById('resStart').innerText = longToIp(netLong + 1n);
+            document.getElementById('resEnd').innerText = longToIp(bcastLong - 1n);
             
-            // Stats
-            const first = Number(ipLong >> 24n);
-            document.getElementById('resClass').innerText = `CLASS ${first < 128 ? 'A' : first < 192 ? 'B' : 'C'}`;
-            document.getElementById('resType').innerText = (first === 10 || (first === 172 && Number((ipLong >> 16n) & 0xffn) >= 16) || (first === 192 && Number((ipLong >> 16n) & 0xffn) === 168)) ? 'PRIVATE NETWORK' : 'PUBLIC INTERNET';
-            
-            // Binary
-            document.getElementById('binaryBox').innerHTML = `
-                <div class="flex gap-4"><span class="w-10 text-slate-500">IP</span> <span>${formatBinary(ipLong, cidr)}</span></div>
-                <div class="flex gap-4"><span class="w-10 text-slate-500">MSK</span> <span>${formatBinary(maskLong, cidr)}</span></div>
-            `;
+            // Dots Visualizer
+            document.getElementById('binNetDots').innerHTML = createDots(netLong);
+            document.getElementById('binBcastDots').innerHTML = createDots(bcastLong);
 
-            // Bar Animation
-            const bar = document.getElementById('usageBar');
-            bar.style.width = '0%';
-            setTimeout(() => bar.style.width = '100%', 100);
-
-            // Table
-            const tbody = document.getElementById('tableBody');
+            // Table Matrix
+            const tbody = document.getElementById('matrixTable');
             tbody.innerHTML = '';
-            for(let i=0; i<15; i++) {
+            for(let i=0; i<16; i++) {
                 let sNet = netLong + (BigInt(i) * total);
                 if(sNet > 0xffffffffn) break;
                 let sBcast = sNet + total - 1n;
                 tbody.innerHTML += `
                     <tr class="hover:bg-cyan-500/5 transition-all">
-                        <td class="p-5 text-slate-500">#${String(i).padStart(2, '0')}</td>
-                        <td class="p-5">
-                            <div class="font-bold text-white">${longToIp(sNet)}</div>
-                            <div class="text-[10px] text-slate-600">${cidr <= 30 ? longToIp(sNet+1n) + ' - ' + longToIp(sBcast-1n) : 'P2P'}</div>
+                        <td class="p-6 text-slate-500 font-bold">SEG_${i}</td>
+                        <td class="p-6 font-bold text-white">${longToIp(sNet)} <span class="text-[10px] text-slate-600 block">RANGE_LOCKED</span></td>
+                        <td class="p-6 text-slate-400 font-bold">${longToIp(sBcast)}</td>
+                        <td class="p-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-cyan-500" style="width: ${Math.random()*100}%"></div>
+                                </div>
+                                <span class="text-cyan-500 font-black">ACTV</span>
+                            </div>
                         </td>
-                        <td class="p-5 text-slate-400">${longToIp(sBcast)}</td>
-                        <td class="p-5"><span class="px-2 py-1 bg-cyan-500/10 text-cyan-500 rounded text-[9px] font-bold">READY</span></td>
                     </tr>
                 `;
             }
             lucide.createIcons();
         }
-
-        function copy(id) {
-            const txt = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(txt).then(() => {
-                alert("COPIED TO CLIPBOARD: " + txt);
-            });
-        }
-
-        lucide.createIcons();
-        calculate();
     </script>
 </body>
 </html>
