@@ -3,325 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARGHA NET-CORE v5.0 | Ultimate Network Suite</title>
+    <title>ARGHA NET-CORE v6.0 | Infinity Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap');
         
         :root {
-            --accent: #22d3ee;
-            --bg: #030712;
+            --primary: #06b6d4;
+            --accent: #8b5cf6;
+            --bg: #020617;
         }
 
         body {
             background-color: var(--bg);
-            color: #f1f5f9;
-            font-family: 'Space Grotesk', sans-serif;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
-            min-height: 100vh;
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
         }
 
-        .cyber-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            transition: all 0.3s ease;
+        /* Background Animation */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: pulseBg 10s infinite alternate;
         }
 
-        .cyber-card:hover {
-            border-color: rgba(34, 211, 238, 0.3);
-            box-shadow: 0 0 30px rgba(34, 211, 238, 0.05);
+        @keyframes pulseBg {
+            from { transform: scale(1); opacity: 0.5; }
+            to { transform: scale(1.1); opacity: 1; }
         }
 
-        .neon-text {
-            color: var(--accent);
-            text-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
         }
 
-        .gradient-bg {
-            background: linear-gradient(135deg, #22d3ee 0%, #6366f1 100%);
+        .neon-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .neon-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .code-font { font-family: 'Fira Code', monospace; }
         
-        input, select {
-            background: rgba(2, 6, 23, 0.8) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-        }
-
-        .host-bar {
-            height: 6px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.05);
-            overflow: hidden;
-        }
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 lg:p-8">
+<body class="min-h-screen">
+    <div class="bg-glow"></div>
 
-    <div class="max-w-7xl mx-auto">
-        <nav class="flex justify-between items-center mb-12">
-            <div class="flex items-center gap-4">
-                <div class="gradient-bg p-3 rounded-2xl rotate-3 shadow-xl">
-                    <i data-lucide="blocks" class="text-white w-6 h-6"></i>
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        
+        <aside class="w-full lg:w-80 glass m-4 lg:m-6 p-6 flex flex-col gap-6">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-cyan-500 rounded-2xl shadow-lg shadow-cyan-500/20">
+                    <i data-lucide="zap" class="text-slate-950 w-6 h-6"></i>
                 </div>
+                <h1 class="text-xl font-extrabold tracking-tighter">ARGHA <span class="text-cyan-400">CORE</span></h1>
+            </div>
+
+            <div class="flex-grow space-y-6">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tighter">ARGHA <span class="neon-text">SYSTEMS</span></h1>
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-cyan-500 rounded-full animate-ping"></span>
-                        <span class="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">Network Core v5.0</span>
+                    <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Quick Reference</h3>
+                    <div class="space-y-2 max-h-64 overflow-y-auto custom-scroll pr-2">
+                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/24</span><span class="text-slate-400">254 Hosts</span></div>
+                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/25</span><span class="text-slate-400">126 Hosts</span></div>
+                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/26</span><span class="text-slate-400">62 Hosts</span></div>
+                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/27</span><span class="text-slate-400">30 Hosts</span></div>
+                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/28</span><span class="text-slate-400">14 Hosts</span></div>
+                        <div class="flex justify-between text-xs p-2 bg-white/5 rounded-lg"><span>/30</span><span class="text-slate-400">2 Hosts</span></div>
                     </div>
                 </div>
-            </div>
-            <div class="hidden md:flex gap-4">
-                <div class="cyber-card px-6 py-2 flex items-center gap-3">
-                    <i data-lucide="database" class="w-4 h-4 text-slate-500"></i>
-                    <span id="globalStats" class="text-xs font-bold text-slate-400 italic">Analyzing...</span>
+
+                <div class="p-4 bg-cyan-500/5 rounded-2xl border border-cyan-500/10">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-bold text-cyan-500">ENGINE_STATUS</span>
+                        <span class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">System ready for IPv4 deep packet analysis.</p>
                 </div>
             </div>
-        </nav>
 
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+            <div class="pt-6 border-t border-white/5">
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Operator</p>
+                <p class="text-sm font-bold text-white">ARGHA_ADMIN_01</p>
+            </div>
+        </aside>
+
+        <main class="flex-grow p-4 lg:p-6 lg:pl-0 space-y-6">
             
-            <div class="xl:col-span-4 space-y-6">
-                <div class="cyber-card p-8">
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-6 flex items-center gap-2">
-                        <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i> Input Terminal
-                    </h2>
-                    
-                    <div class="space-y-6">
-                        <div class="relative group">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase ml-1 mb-2 block">IPv4 Target</label>
-                            <input type="text" id="ipInput" value="10.10.0.1" 
-                                class="w-full px-5 py-4 rounded-2xl outline-none focus:border-cyan-500/50 transition-all font-mono text-lg group-hover:bg-slate-900">
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass p-6 neon-card">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase">Target Node</p>
+                    <input type="text" id="ipInput" value="192.168.100.1" class="bg-transparent text-2xl font-bold outline-none text-white w-full code-font">
+                </div>
+                <div class="glass p-6 neon-card">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase">Subnet Mask</p>
+                    <select id="cidrInput" class="bg-transparent text-2xl font-bold outline-none text-white w-full appearance-none cursor-pointer"></select>
+                </div>
+                <button onclick="calculate()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-3xl font-black text-lg shadow-xl shadow-cyan-500/20 transition-all active:scale-95">
+                    SCAN NETWORK
+                </button>
+            </div>
 
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase ml-1 mb-2 block">Prefix / CIDR</label>
-                            <select id="cidrInput" class="w-full px-5 py-4 rounded-2xl outline-none appearance-none font-mono text-lg cursor-pointer">
-                                </select>
-                        </div>
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div class="glass p-8 space-y-8">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-cyan-500">Network Intelligence</h2>
+                        <i data-lucide="shield-check" class="text-cyan-500 w-5 h-5"></i>
+                    </div>
 
-                        <button onclick="superCalculate()" class="w-full gradient-bg py-5 rounded-2xl font-bold text-slate-950 uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-cyan-500/20">
-                            Launch Discovery
-                        </button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div onclick="copy('resNet')" class="cursor-pointer group">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Network ID</p>
+                            <p id="resNet" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
+                        </div>
+                        <div onclick="copy('resBcast')" class="cursor-pointer group">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Broadcast</p>
+                            <p id="resBcast" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
+                        </div>
+                        <div onclick="copy('resMask')" class="cursor-pointer group">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Netmask</p>
+                            <p id="resMask" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
+                        </div>
+                        <div onclick="copy('resWild')" class="cursor-pointer group">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1 group-hover:text-cyan-400 transition-colors">Wildcard</p>
+                            <p id="resWild" class="text-2xl font-bold code-font tracking-tight">0.0.0.0</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-white/5 rounded-3xl">
+                        <div class="flex justify-between items-end mb-4">
+                            <div>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Total Usable Hosts</p>
+                                <p id="resHosts" class="text-4xl font-black text-white">0</p>
+                            </div>
+                            <div class="text-right">
+                                <p id="resClass" class="text-xs font-bold text-cyan-500">CLASS -</p>
+                                <p id="resType" class="text-[10px] text-slate-500">PUBLIC</p>
+                            </div>
+                        </div>
+                        <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                            <div id="usageBar" class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 w-0 transition-all duration-1000"></div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="cyber-card p-5">
-                        <p class="text-[9px] uppercase font-bold text-slate-500">Class</p>
-                        <p id="resClass" class="text-xl font-bold neon-text">-</p>
+                <div class="space-y-6">
+                    <div class="glass p-8 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <i data-lucide="binary" class="w-32 h-32"></i>
+                        </div>
+                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] mb-6 text-slate-400">Binary Bitstream</h3>
+                        <div id="binaryBox" class="space-y-3 font-mono text-xs md:text-sm tracking-widest">
+                            </div>
                     </div>
-                    <div class="cyber-card p-5">
-                        <p class="text-[9px] uppercase font-bold text-slate-500">Type</p>
-                        <p id="resType" class="text-xl font-bold text-white">-</p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass p-6">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Network Type</p>
+                            <p id="resSpec" class="font-bold text-white tracking-wide">STANDARD</p>
+                        </div>
+                        <div class="glass p-6">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Efficiency</p>
+                            <p id="resEff" class="font-bold text-emerald-400 tracking-wide">OPTIMAL</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="xl:col-span-8 space-y-6">
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="cyber-card p-6 border-l-4 border-l-cyan-500">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase">Network Identifier</span>
-                            <i data-lucide="share-2" class="w-4 h-4 text-cyan-500"></i>
-                        </div>
-                        <p id="resNet" class="text-3xl font-mono font-bold text-white tracking-tighter">-</p>
-                        <p id="resMask" class="text-xs font-mono text-slate-500 mt-2 italic">Subnet: -</p>
-                    </div>
-
-                    <div class="cyber-card p-6 border-l-4 border-l-indigo-500">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-[10px] font-bold text-slate-500 uppercase">Broadcast Address</span>
-                            <i data-lucide="radio" class="w-4 h-4 text-indigo-500"></i>
-                        </div>
-                        <p id="resBcast" class="text-3xl font-mono font-bold text-white tracking-tighter">-</p>
-                        <p id="resWild" class="text-xs font-mono text-slate-500 mt-2 italic">Wildcard: -</p>
+            <div class="glass overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-xs font-bold uppercase tracking-widest">Next-Gen Segment Explorer</h3>
+                    <div class="flex gap-2">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                        <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
+                        <div class="w-2 h-2 bg-rose-500 rounded-full"></div>
                     </div>
                 </div>
-
-                <div class="cyber-card p-8">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Usable Host Spectrum</h3>
-                        <span id="hostCount" class="text-cyan-400 font-mono text-sm">0 Hosts</span>
-                    </div>
-                    <p id="resRange" class="text-2xl md:text-3xl font-mono font-bold text-white mb-6">-</p>
-                    <div class="host-bar">
-                        <div id="usageBar" class="h-full gradient-bg w-0 transition-all duration-1000"></div>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <div class="flex gap-4">
-                            <span class="text-[10px] text-slate-500"><b class="text-cyan-500">.0</b> Network</span>
-                            <span class="text-[10px] text-slate-500"><b class="text-indigo-500">.255</b> Broadcast</span>
-                        </div>
-                        <span id="efficiency" class="text-[10px] text-emerald-400 font-bold tracking-widest">ANALYZING...</span>
-                    </div>
-                </div>
-
-                <div class="cyber-card p-6 overflow-hidden relative">
-                    <div class="flex items-center gap-2 mb-4">
-                        <i data-lucide="binary" class="w-4 h-4 text-cyan-400"></i>
-                        <h3 class="text-[10px] font-bold uppercase text-slate-500">Binary Data Stream</h3>
-                    </div>
-                    <div id="binaryDisplay" class="font-mono text-[11px] leading-relaxed break-all space-y-1">
-                        </div>
+                <div class="overflow-x-auto max-h-[400px] custom-scroll">
+                    <table class="w-full text-left font-mono text-xs">
+                        <thead class="bg-white/5 sticky top-0 backdrop-blur-md">
+                            <tr class="text-slate-500">
+                                <th class="p-5">ID</th>
+                                <th class="p-5">NETWORK RANGE</th>
+                                <th class="p-5">BROADCAST</th>
+                                <th class="p-5">NODES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-white/5"></tbody>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <div class="mt-8 cyber-card overflow-hidden">
-            <div class="p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-                <h3 class="font-bold uppercase tracking-widest text-xs">Segmentation Mapping (Subnet Table)</h3>
-                <button onclick="downloadJSON()" class="text-[10px] font-bold text-slate-500 hover:text-white transition-colors">EXPORT_JSON</button>
-            </div>
-            <div class="overflow-x-auto no-scrollbar max-h-[400px]">
-                <table class="w-full text-left font-mono text-xs">
-                    <thead>
-                        <tr class="text-slate-500 bg-black/20">
-                            <th class="p-6">IDX</th>
-                            <th class="p-6">NETWORK</th>
-                            <th class="p-6">RANGE USABLE</th>
-                            <th class="p-6">BROADCAST</th>
-                            <th class="p-6">STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="subnetTableBody" class="divide-y divide-white/5">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-
-        <footer class="mt-20 py-20 text-center border-t border-white/5">
-            <div class="flex flex-col items-center gap-4">
-                <div class="p-3 bg-slate-900 rounded-full border border-white/10 animate-bounce">
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[1em] mb-4">Master Architect</p>
-                    <h2 class="text-6xl font-black italic tracking-tighter opacity-80 hover:opacity-100 transition-opacity">
-                        ARGHA<span class="text-cyan-500">.</span>CORE
-                    </h2>
-                </div>
-                <div class="flex gap-6 mt-6">
-                    <i data-lucide="github" class="w-5 h-5 text-slate-600"></i>
-                    <i data-lucide="globe" class="w-5 h-5 text-slate-600"></i>
-                    <i data-lucide="shield" class="w-5 h-5 text-slate-600"></i>
-                </div>
-                <p class="text-[10px] text-slate-700 font-bold mt-8 uppercase tracking-widest">© 2026 Argha Intelligence Systems - Distributed Architecture</p>
-            </div>
-        </footer>
+            <footer class="text-center py-12">
+                <p class="text-[10px] text-slate-600 font-bold uppercase tracking-[0.8em] mb-4">Master Design</p>
+                <h2 class="text-7xl font-black italic tracking-tighter text-white opacity-20">ARGHA.SYSTEMS</h2>
+            </footer>
+        </main>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            initCIDR();
-            superCalculate();
-        });
-
-        function initCIDR() {
-            const s = document.getElementById('cidrInput');
-            for(let i=32; i>=1; i--) {
-                const o = document.createElement('option');
-                o.value = i; o.textContent = `/${i} — ${longToIp(getMask(i))}`;
-                if(i===24) o.selected = true;
-                s.appendChild(o);
-            }
+        // INIT DATA
+        const cidrEl = document.getElementById('cidrInput');
+        for(let i=32; i>=1; i--) {
+            let o = document.createElement('option');
+            o.value = i; o.textContent = `/${i}`;
+            if(i===24) o.selected = true;
+            cidrEl.appendChild(o);
         }
 
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
         const getMask = (cidr) => (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
 
-        function getBinaryHTML(long, cidr) {
-            let s = long.toString(2).padStart(32, '0');
-            let html = "";
+        function formatBinary(long, cidr) {
+            let b = long.toString(2).padStart(32, '0');
+            let h = "";
             for(let i=0; i<32; i++) {
                 let color = i < cidr ? 'text-cyan-400 font-bold' : 'text-slate-700';
-                html += `<span class="${color}">${s[i]}</span>`;
-                if((i+1)%8 === 0 && i !== 31) html += " ";
+                h += `<span class="${color}">${b[i]}</span>`;
+                if((i+1)%8 === 0 && i !== 31) h += " ";
             }
-            return html;
+            return h;
         }
 
-        function superCalculate() {
-            const ipStr = document.getElementById('ipInput').value.trim();
+        function calculate() {
+            const ipVal = document.getElementById('ipInput').value.trim();
             const cidr = parseInt(document.getElementById('cidrInput').value);
             
-            if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipStr)) return;
+            if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipVal)) return alert("MALFORMED IP");
 
-            const ipLong = ipToLong(ipStr);
+            const ipLong = ipToLong(ipVal);
             const maskLong = getMask(cidr);
             const netLong = ipLong & maskLong;
             const bcastLong = netLong + (0xffffffffn ^ maskLong);
-            const wildLong = 0xffffffffn ^ maskLong;
-            const size = bcastLong - netLong + 1n;
-            const hosts = size > 2n ? size - 2n : 0n;
+            const total = bcastLong - netLong + 1n;
+            const usable = total > 2n ? total - 2n : 0n;
 
-            // UI UPDATES
+            // UI
             document.getElementById('resNet').innerText = longToIp(netLong);
             document.getElementById('resBcast').innerText = longToIp(bcastLong);
-            document.getElementById('resMask').innerText = `Subnet Mask: ${longToIp(maskLong)}`;
-            document.getElementById('resWild').innerText = `Wildcard: ${longToIp(wildLong)}`;
-            document.getElementById('hostCount').innerText = `${hosts.toLocaleString()} Usable Hosts`;
-            document.getElementById('resRange').innerText = cidr <= 30 ? `${longToIp(netLong+1n)} — ${longToIp(bcastLong-1n)}` : 'P-to-P Link';
+            document.getElementById('resMask').innerText = longToIp(maskLong);
+            document.getElementById('resWild').innerText = longToIp(0xffffffffn ^ maskLong);
+            document.getElementById('resHosts').innerText = Number(usable).toLocaleString();
             
-            // ANALYTICS
+            // Stats
             const first = Number(ipLong >> 24n);
-            document.getElementById('resClass').innerText = first < 128 ? 'A' : first < 192 ? 'B' : 'C';
-            document.getElementById('resType').innerText = (first === 10 || (first === 172 && Number((ipLong >> 16n) & 0xffn) >= 16) || (first === 192 && Number((ipLong >> 16n) & 0xffn) === 168)) ? 'Private' : 'Public';
-            document.getElementById('efficiency').innerText = cidr >= 24 ? 'HIGH EFFICIENCY' : 'BROAD SEGMENT';
-
-            // BINARY
-            document.getElementById('binaryDisplay').innerHTML = `
-                <div class="flex gap-4"><span class="w-12 text-slate-600 uppercase text-[9px] mt-1">IP</span> <span>${getBinaryHTML(ipLong, cidr)}</span></div>
-                <div class="flex gap-4"><span class="w-12 text-slate-600 uppercase text-[9px] mt-1">MSK</span> <span>${getBinaryHTML(maskLong, cidr)}</span></div>
+            document.getElementById('resClass').innerText = `CLASS ${first < 128 ? 'A' : first < 192 ? 'B' : 'C'}`;
+            document.getElementById('resType').innerText = (first === 10 || (first === 172 && Number((ipLong >> 16n) & 0xffn) >= 16) || (first === 192 && Number((ipLong >> 16n) & 0xffn) === 168)) ? 'PRIVATE NETWORK' : 'PUBLIC INTERNET';
+            
+            // Binary
+            document.getElementById('binaryBox').innerHTML = `
+                <div class="flex gap-4"><span class="w-10 text-slate-500">IP</span> <span>${formatBinary(ipLong, cidr)}</span></div>
+                <div class="flex gap-4"><span class="w-10 text-slate-500">MSK</span> <span>${formatBinary(maskLong, cidr)}</span></div>
             `;
 
-            // STATS ANIMATION
-            document.getElementById('usageBar').style.width = '100%';
-            document.getElementById('globalStats').innerText = `Current Node: ${ipStr} | Scan Complete`;
+            // Bar Animation
+            const bar = document.getElementById('usageBar');
+            bar.style.width = '0%';
+            setTimeout(() => bar.style.width = '100%', 100);
 
-            // TABLE GENERATOR
-            const tbody = document.getElementById('subnetTableBody');
+            // Table
+            const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
-            for(let i=0; i<32; i++) {
-                let sNet = netLong + (BigInt(i) * size);
+            for(let i=0; i<15; i++) {
+                let sNet = netLong + (BigInt(i) * total);
                 if(sNet > 0xffffffffn) break;
-                let sBcast = sNet + size - 1n;
+                let sBcast = sNet + total - 1n;
                 tbody.innerHTML += `
-                    <tr class="hover:bg-cyan-500/[0.03] transition-colors group">
-                        <td class="p-6 text-slate-700 group-hover:text-cyan-500 font-bold">#${i}</td>
-                        <td class="p-6 font-bold text-white">${longToIp(sNet)}</td>
-                        <td class="p-6 text-slate-400">${cidr <= 30 ? longToIp(sNet+1n) + ' - ' + longToIp(sBcast-1n) : 'P2P'}</td>
-                        <td class="p-6 text-slate-500">${longToIp(sBcast)}</td>
-                        <td class="p-6"><span class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-500 text-[9px] font-bold uppercase">Ready</span></td>
+                    <tr class="hover:bg-cyan-500/5 transition-all">
+                        <td class="p-5 text-slate-500">#${String(i).padStart(2, '0')}</td>
+                        <td class="p-5">
+                            <div class="font-bold text-white">${longToIp(sNet)}</div>
+                            <div class="text-[10px] text-slate-600">${cidr <= 30 ? longToIp(sNet+1n) + ' - ' + longToIp(sBcast-1n) : 'P2P'}</div>
+                        </td>
+                        <td class="p-5 text-slate-400">${longToIp(sBcast)}</td>
+                        <td class="p-5"><span class="px-2 py-1 bg-cyan-500/10 text-cyan-500 rounded text-[9px] font-bold">READY</span></td>
                     </tr>
                 `;
             }
             lucide.createIcons();
         }
 
-        function downloadJSON() {
-            const data = {
-                network: document.getElementById('resNet').innerText,
-                broadcast: document.getElementById('resBcast').innerText,
-                range: document.getElementById('resRange').innerText,
-                timestamp: new Date().toISOString()
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `argha_net_export.json`;
-            a.click();
+        function copy(id) {
+            const txt = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(txt).then(() => {
+                alert("COPIED TO CLIPBOARD: " + txt);
+            });
         }
+
+        lucide.createIcons();
+        calculate();
     </script>
 </body>
 </html>
