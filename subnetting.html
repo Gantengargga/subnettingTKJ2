@@ -1,164 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subnetting Website | Argha Titan Edition</title>
+    <title>Subnetting Website | Argha Studio Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap');
         
         :root {
-            --accent: #06b6d4;
-            --bg-deep: #020617;
+            --brand: #ffffff;
+            --accent: #3b82f6;
+            --surface: #0a0a0a;
         }
 
         body {
-            background: var(--bg-deep);
-            color: #f1f5f9;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+            background-color: #000000;
+            color: var(--brand);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .titan-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .studio-card {
+            background: linear-gradient(145deg, #111111 0%, #050505 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .titan-panel:hover {
-            border-color: rgba(6, 182, 212, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        .studio-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
         }
 
-        .bit-active {
-            color: var(--accent);
-            text-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
-        }
-
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-
-        input, select {
-            background: rgba(2, 6, 23, 0.5) !important;
+        .input-field {
+            background: #111111 !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
             transition: all 0.3s ease;
         }
 
-        input:focus, select:focus {
+        .input-field:focus {
             border-color: var(--accent) !important;
-            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+            ring: 2px var(--accent);
         }
 
-        .text-gradient {
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .glass-header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-execute {
+            background: white;
+            color: black;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-execute:hover {
+            background: #e2e2e2;
+            letter-spacing: 1px;
+        }
+
+        .badge-status {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
         }
     </style>
 </head>
-<body class="p-4 md:p-8 lg:p-12">
+<body class="pb-20">
 
-    <div class="max-w-[1400px] mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-            <div class="flex items-center gap-5">
-                <div class="bg-cyan-500 p-4 rounded-[1.5rem] shadow-lg shadow-cyan-500/20 rotate-3">
-                    <i data-lucide="network" class="text-slate-950 w-8 h-8"></i>
+    <nav class="glass-header sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                    <i data-lucide="box" class="text-black w-5 h-5"></i>
                 </div>
-                <div>
-                    <h1 class="text-3xl md:text-4xl font-black tracking-tighter text-gradient">Subnetting Website</h1>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500">Titan Intelligence v9.0</p>
-                </div>
+                <h1 class="text-xl font-extrabold tracking-tight">Subnetting <span class="text-blue-500">Website</span></h1>
             </div>
-            
-            <div class="flex items-center gap-3 titan-panel px-6 py-3">
-                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span id="currentTime" class="text-xs font-mono font-bold text-slate-400">LOADING CORE...</span>
+            <div class="hidden md:flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                <span class="text-white">v10.0 Studio</span>
+                <span>Engine Active</span>
+                <span id="liveClock">00:00:00</span>
             </div>
-        </header>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 mt-12">
+        <section class="mb-16">
+            <h2 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 leading-none">
+                Hitung Network <br><span class="text-gray-500">Tanpa Batas.</span>
+            </h2>
+            <p class="text-gray-400 text-lg max-w-2xl font-light">
+                Platform analisis infrastruktur jaringan tingkat lanjut yang dirancang untuk kecepatan dan akurasi data.
+            </p>
+        </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <div class="lg:col-span-3 space-y-6">
-                <div class="titan-panel p-8">
-                    <h3 class="text-xs font-black uppercase text-slate-500 mb-6 flex items-center gap-2">
-                        <i data-lucide="sliders" class="w-4 h-4"></i> Configuration
-                    </h3>
-                    
+            <div class="lg:col-span-4">
+                <div class="studio-card p-8">
                     <div class="space-y-6">
                         <div>
-                            <label class="text-[10px] font-bold text-slate-600 uppercase mb-2 block">IP Address</label>
-                            <input type="text" id="ipInput" value="172.16.0.1" 
-                                class="w-full px-5 py-4 rounded-2xl outline-none font-mono text-lg text-white">
+                            <label class="text-[10px] font-bold uppercase text-gray-500 mb-2 block">IPv4 Host Address</label>
+                            <input type="text" id="ipInput" value="192.168.1.1" 
+                                class="input-field w-full px-6 py-4 rounded-2xl text-lg font-bold outline-none">
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-slate-600 uppercase mb-2 block">Prefix (CIDR)</label>
-                            <select id="cidrInput" onchange="calculate()" 
-                                class="w-full px-5 py-4 rounded-2xl outline-none appearance-none font-mono text-lg text-white cursor-pointer">
+                            <label class="text-[10px] font-bold uppercase text-gray-500 mb-2 block">Prefix / Subnet Mask</label>
+                            <select id="cidrInput" class="input-field w-full px-6 py-4 rounded-2xl text-lg font-bold outline-none appearance-none cursor-pointer">
                                 </select>
                         </div>
-                        <button onclick="calculate()" class="w-full bg-cyan-500 hover:bg-cyan-400 py-5 rounded-2xl text-slate-950 font-black uppercase tracking-widest shadow-lg shadow-cyan-500/20 transition-all">
-                            SCAN NETWORK
+                        <button onclick="calculate()" class="btn-execute w-full py-5 rounded-2xl uppercase tracking-tighter flex items-center justify-center gap-3">
+                            Lakukan Analisis <i data-lucide="chevron-right" class="w-5 h-5"></i>
                         </button>
                     </div>
                 </div>
-
-                <div class="titan-panel p-6">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase mb-4">Quick CIDR Reference</p>
-                    <div class="grid grid-cols-2 gap-2 text-[10px] font-bold font-mono">
-                        <div class="p-2 bg-white/5 rounded-lg border border-white/5">/24: 254 H</div>
-                        <div class="p-2 bg-white/5 rounded-lg border border-white/5">/25: 126 H</div>
-                        <div class="p-2 bg-white/5 rounded-lg border border-white/5">/28: 14 H</div>
-                        <div class="p-2 bg-white/5 rounded-lg border border-white/5">/30: 2 H</div>
-                    </div>
-                </div>
             </div>
 
-            <div class="lg:col-span-9 space-y-8">
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div onclick="copyText('resNet')" class="titan-panel p-6 cursor-pointer group">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Network Address</p>
-                        <p id="resNet" class="text-2xl font-mono font-bold text-white group-hover:text-cyan-400 transition-colors">0.0.0.0</p>
-                    </div>
-                    <div onclick="copyText('resBcast')" class="titan-panel p-6 cursor-pointer group">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Broadcast Address</p>
-                        <p id="resBcast" class="text-2xl font-mono font-bold text-white group-hover:text-indigo-400 transition-colors">0.0.0.0</p>
-                    </div>
-                    <div class="titan-panel p-6">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Total Usable Hosts</p>
-                        <p id="resHosts" class="text-2xl font-mono font-bold text-emerald-400">0</p>
-                    </div>
-                </div>
-
-                <div class="titan-panel p-8 overflow-hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xs font-black uppercase text-slate-500 tracking-widest">Binary Data Stream</h3>
-                        <span id="resClass" class="text-[9px] bg-cyan-500/10 text-cyan-500 px-3 py-1 rounded-full font-bold">DETECTING...</span>
-                    </div>
-                    <div id="binaryDisplay" class="font-mono text-[10px] md:text-sm tracking-[0.2em] space-y-3">
+            <div class="lg:col-span-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="studio-card p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="badge-status">Network ID</span>
+                            <i data-lucide="database" class="text-gray-600 w-5 h-5"></i>
                         </div>
+                        <p id="resNet" class="text-4xl font-bold mono tracking-tighter text-white">0.0.0.0</p>
+                        <p id="resMask" class="text-gray-500 text-xs mt-4 mono">Mask: 0.0.0.0</p>
+                    </div>
+
+                    <div class="studio-card p-8 border-l-4 border-blue-600">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="badge-status">Broadcast</span>
+                            <i data-lucide="radio" class="text-gray-600 w-5 h-5"></i>
+                        </div>
+                        <p id="resBcast" class="text-4xl font-bold mono tracking-tighter text-white">0.0.0.0</p>
+                        <p id="resWild" class="text-gray-500 text-xs mt-4 mono">Wildcard: 0.0.0.0</p>
+                    </div>
                 </div>
 
-                <div class="titan-panel overflow-hidden">
-                    <div class="p-6 border-b border-white/5 flex justify-between items-center">
-                        <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest">Segmentation Explorer</h3>
-                        <button onclick="downloadCSV()" class="text-[10px] font-bold text-cyan-500 hover:text-white transition-colors">EXPORT_DATA</button>
+                <div class="studio-card p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400">Usable IP Range</h3>
+                        <div class="text-right">
+                            <p id="resHosts" class="text-2xl font-black text-white">0</p>
+                            <p class="text-[10px] text-gray-500 uppercase">Available Nodes</p>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto max-h-[400px] custom-scrollbar">
-                        <table class="w-full text-left font-mono text-xs">
-                            <thead class="bg-black/40 text-slate-500">
+                    <div class="flex flex-col md:flex-row justify-between items-center bg-black/50 p-6 rounded-2xl border border-white/5 gap-4">
+                        <div class="text-center md:text-left">
+                            <span class="text-[9px] text-gray-600 block uppercase mb-1">First Gateway</span>
+                            <span id="resStart" class="text-xl font-bold mono text-blue-400">0.0.0.0</span>
+                        </div>
+                        <i data-lucide="arrow-right-left" class="text-gray-700 hidden md:block"></i>
+                        <div class="text-center md:text-right">
+                            <span class="text-[9px] text-gray-600 block uppercase mb-1">Last Node</span>
+                            <span id="resEnd" class="text-xl font-bold mono text-blue-400">0.0.0.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="studio-card overflow-hidden">
+                    <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Segment Map</span>
+                        <span id="resClass" class="text-[10px] font-bold text-blue-500">CLASS DETECTION...</span>
+                    </div>
+                    <div class="overflow-x-auto max-h-[400px]">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-white/[0.02] text-gray-500 uppercase">
                                 <tr>
-                                    <th class="p-5">SEGMENT</th>
-                                    <th class="p-5">NETWORK RANGE</th>
-                                    <th class="p-5">BROADCAST</th>
-                                    <th class="p-5 text-right">METRIC</th>
+                                    <th class="p-6">ID</th>
+                                    <th class="p-6">Network Range</th>
+                                    <th class="p-6">Broadcast</th>
+                                    <th class="p-6">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody" class="divide-y divide-white/5"></tbody>
@@ -167,40 +189,39 @@
                 </div>
             </div>
         </div>
+    </main>
 
-        <footer class="mt-20 py-16 border-t border-white/5 text-center">
-            <div class="flex flex-col items-center gap-6">
-                <div class="p-4 bg-slate-900 rounded-full border border-white/10">
-                    <i data-lucide="shield" class="w-6 h-6 text-cyan-500"></i>
-                </div>
+    <footer class="mt-32 px-6 border-t border-white/5 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
                 <div>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.6em] mb-4">Architected & Developed by</p>
-                    <h2 class="text-5xl font-black italic text-white tracking-tighter">ARGHA <span class="text-cyan-500">SYSTEMS</span></h2>
+                    <h2 class="text-6xl font-black tracking-tighter mb-4">Argha <br><span class="text-blue-600">Systems.</span></h2>
+                    <p class="text-gray-500 text-sm max-w-sm font-light">
+                        Membangun masa depan infrastruktur jaringan melalui presisi data dan keunggulan desain.
+                    </p>
                 </div>
-                <div class="text-slate-700 text-[10px] font-bold uppercase tracking-widest space-y-2">
-                    <p>&copy; 2026 Argha Intelligence Systems. Secure Architecture Platform.</p>
-                    <p>Subnetting Website — Project Titan v9.0</p>
+                <div class="md:text-right space-y-2">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">© 2026 Argha Intelligence Systems</p>
+                    <p class="text-[10px] text-gray-600 uppercase tracking-[0.3em]">All Rights Reserved. Professional Edition.</p>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             initApp();
             calculate();
-            setInterval(updateClock, 1000);
+            setInterval(() => {
+                document.getElementById('liveClock').innerText = new Date().toLocaleTimeString();
+            }, 1000);
         });
-
-        function updateClock() {
-            document.getElementById('currentTime').innerText = new Date().toLocaleTimeString();
-        }
 
         function initApp() {
             const select = document.getElementById('cidrInput');
             for(let i=32; i>=1; i--) {
                 const opt = document.createElement('option');
-                opt.value = i; opt.textContent = `/${i} Protocol`;
+                opt.value = i; opt.textContent = `/${i} — ${longToIp(getMask(i))}`;
                 if(i===24) opt.selected = true;
                 select.appendChild(opt);
             }
@@ -209,16 +230,7 @@
 
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
-
-        function getBinaryHTML(long, cidr) {
-            let s = long.toString(2).padStart(32, '0');
-            let html = "";
-            for(let i=0; i<32; i++) {
-                html += `<span class="${i < cidr ? 'bit-active font-bold' : 'text-slate-700'}">${s[i]}</span>`;
-                if((i+1)%8 === 0 && i !== 31) html += " ";
-            }
-            return html;
-        }
+        const getMask = (cidr) => (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
 
         function calculate() {
             const ipVal = document.getElementById('ipInput').value.trim();
@@ -227,7 +239,7 @@
             if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipVal)) return;
 
             const ipLong = ipToLong(ipVal);
-            const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
+            const maskLong = getMask(cidr);
             const netLong = ipLong & maskLong;
             const bcastLong = netLong + (0xffffffffn ^ maskLong);
             const size = bcastLong - netLong + 1n;
@@ -237,17 +249,11 @@
             document.getElementById('resNet').innerText = longToIp(netLong);
             document.getElementById('resBcast').innerText = longToIp(bcastLong);
             document.getElementById('resHosts').innerText = Number(usable).toLocaleString();
+            document.getElementById('resStart').innerText = longToIp(netLong + 1n);
+            document.getElementById('resEnd').innerText = longToIp(bcastLong - 1n);
             
-            // Class Detection
             const first = Number(ipLong >> 24n);
-            let cls = first < 128 ? 'CLASS A' : first < 192 ? 'CLASS B' : 'CLASS C';
-            document.getElementById('resClass').innerText = cls;
-
-            // Binary Stream
-            document.getElementById('binaryDisplay').innerHTML = `
-                <div class="flex gap-4"><span class="w-12 text-slate-500 uppercase text-[9px]">Node</span> ${getBinaryHTML(ipLong, cidr)}</div>
-                <div class="flex gap-4"><span class="w-12 text-slate-500 uppercase text-[9px]">Mask</span> ${getBinaryHTML(maskLong, cidr)}</div>
-            `;
+            document.getElementById('resClass').innerText = `Class ${first < 128 ? 'A' : first < 192 ? 'B' : 'C'} Protocol`;
 
             // Table
             const tbody = document.getElementById('tableBody');
@@ -257,26 +263,18 @@
                 if(sNet > 0xffffffffn) break;
                 let sBcast = sNet + size - 1n;
                 tbody.innerHTML += `
-                    <tr class="hover:bg-cyan-500/5 transition-colors">
-                        <td class="p-5 text-slate-600">ID_0${i}</td>
-                        <td class="p-5 font-bold text-white">${longToIp(sNet)} <span class="text-[9px] text-slate-500 block">${cidr <= 30 ? longToIp(sNet+1n) + ' - ' + longToIp(sBcast-1n) : 'LINK'}</span></td>
-                        <td class="p-5 text-slate-500">${longToIp(sBcast)}</td>
-                        <td class="p-5 text-right"><span class="text-emerald-500 font-bold opacity-50">STABLE</span></td>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                        <td class="p-6 font-bold text-gray-500">${String(i+1).padStart(2, '0')}</td>
+                        <td class="p-6">
+                            <div class="text-white font-bold mono text-sm">${longToIp(sNet)}</div>
+                            <div class="text-[9px] text-gray-600 mt-1">${cidr <= 30 ? longToIp(sNet+1n) + ' - ' + longToIp(sBcast-1n) : 'P2P'}</div>
+                        </td>
+                        <td class="p-6 text-gray-400 mono">${longToIp(sBcast)}</td>
+                        <td class="p-6"><span class="text-blue-500 font-bold tracking-tighter">ACTIVE</span></td>
                     </tr>
                 `;
             }
             lucide.createIcons();
-        }
-
-        function copyText(id) {
-            const t = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(t).then(() => {
-                alert("Copied: " + t);
-            });
-        }
-
-        function downloadCSV() {
-            alert("Data Exported to System Console.");
         }
     </script>
 </body>
