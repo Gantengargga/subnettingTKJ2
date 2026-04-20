@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subnetting Website | Argha Studio Pro</title>
+    <title>Argha Systems | Network Suite Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -12,7 +12,6 @@
         :root {
             --brand: #ffffff;
             --accent: #3b82f6;
-            --surface: #0a0a0a;
         }
 
         body {
@@ -26,11 +25,10 @@
             background: linear-gradient(145deg, #111111 0%, #050505 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 32px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .input-field {
-            background: #111111 !important;
+            background: #0d0d0d !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             color: white !important;
         }
@@ -43,264 +41,272 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .btn-execute {
-            background: white;
-            color: black;
+        .tab-btn {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 12px;
             font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .btn-execute:hover {
-            background: #3b82f6;
-            color: white;
-            transform: scale(1.02);
-        }
-
-        .badge-status {
-            background: rgba(59, 130, 246, 0.1);
-            color: #60a5fa;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 10px;
-            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4b5563;
+            transition: all 0.3s;
         }
 
-        /* Perbaikan Visual Biner */
+        .tab-btn.active {
+            color: white;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
         .binary-bit {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 22px;
-            margin: 1px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            width: 18px; height: 22px; margin: 1px; border-radius: 4px;
+            font-size: 10px; font-weight: bold;
         }
-
         .bit-net { background: #2563eb; color: white; }
         .bit-host { background: #1e293b; color: #475569; }
         .bit-mask { background: #475569; color: white; }
         .bit-off { background: #0f172a; color: #1e293b; }
+
+        .hidden-tab { display: none; }
     </style>
 </head>
 <body class="pb-20">
 
-    <nav class="glass-header sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <nav class="glass-header sticky top-0 z-50 px-6 py-2">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <i data-lucide="network" class="text-white w-5 h-5"></i>
+                    <i data-lucide="cpu" class="text-white w-5 h-5"></i>
                 </div>
-                <h1 class="text-xl font-extrabold tracking-tight">Subnetting <span class="text-blue-500">Website</span></h1>
+                <h1 class="text-xl font-black italic tracking-tighter">Argha <span class="text-blue-500 not-italic">Systems.</span></h1>
             </div>
-            <div class="hidden md:flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                <span id="liveClock" class="mono">00:00:00</span>
+
+            <div class="flex bg-white/5 p-1 rounded-xl">
+                <button onclick="switchTab('subnet')" id="btn-subnet" class="tab-btn active">Subnetting</button>
+                <button onclick="switchTab('vlsm')" id="btn-vlsm" class="tab-btn">VLSM Planner</button>
             </div>
+
+            <div id="liveClock" class="hidden md:block text-[10px] mono text-gray-500">00:00:00</div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 mt-12">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <div class="lg:col-span-4 space-y-6">
-                <div class="studio-card p-8">
-                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Core Config</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <label class="text-[10px] font-bold uppercase text-gray-600 mb-2 block">IPv4 Address</label>
-                            <input type="text" id="ipInput" value="192.168.1.1" 
-                                class="input-field w-full px-6 py-4 rounded-2xl text-lg font-bold outline-none">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold uppercase text-gray-600 mb-2 block">Prefix / CIDR</label>
-                            <select id="cidrInput" class="input-field w-full px-6 py-4 rounded-2xl text-lg font-bold outline-none appearance-none cursor-pointer"></select>
-                        </div>
-                        <button onclick="calculate()" class="btn-execute w-full py-5 rounded-2xl uppercase tracking-tighter flex items-center justify-center gap-3">
-                            Analyze Network <i data-lucide="zap" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="studio-card p-8">
-                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Host Intelligence</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between border-b border-white/5 pb-3">
-                            <span class="text-sm text-gray-400">Total Host</span>
-                            <span id="totalHosts" class="font-bold text-white mono">-</span>
-                        </div>
-                        <div class="flex justify-between border-b border-white/5 pb-3">
-                            <span class="text-sm text-gray-400">Usable Range</span>
-                            <span id="usableHosts" class="font-bold text-blue-400 mono">-</span>
-                        </div>
-                        <div class="flex justify-between border-b border-white/5 pb-3">
-                            <span class="text-sm text-gray-400">IP Class</span>
-                            <span id="netClass" class="font-bold text-white mono">-</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-sm text-gray-400">Status</span>
-                            <span class="font-bold text-green-500 mono">ONLINE</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-8 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div id="tab-subnet" class="space-y-8 animate-in fade-in duration-500">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 space-y-6">
                     <div class="studio-card p-8">
-                        <p class="badge-status mb-4">Network ID</p>
-                        <p id="resNet" class="text-4xl font-bold mono tracking-tighter text-white">0.0.0.0</p>
-                        <p id="resMask" class="text-gray-500 text-xs mt-4 mono">Mask: 0.0.0.0</p>
-                    </div>
-                    <div class="studio-card p-8">
-                        <p class="badge-status mb-4">Broadcast</p>
-                        <p id="resBcast" class="text-4xl font-bold mono tracking-tighter text-white">0.0.0.0</p>
-                        <p id="resWild" class="text-gray-500 text-xs mt-4 mono">Wildcard: 0.0.0.0</p>
+                        <h3 class="text-xs font-bold uppercase text-gray-500 mb-6 tracking-widest">Network Config</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-600 mb-2 block uppercase">IP Address</label>
+                                <input type="text" id="ipInput" value="192.168.1.1" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-600 mb-2 block uppercase">Prefix</label>
+                                <select id="cidrInput" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none cursor-pointer"></select>
+                            </div>
+                            <button onclick="calculateSubnet()" class="w-full py-4 bg-white text-black font-extrabold rounded-xl uppercase text-xs tracking-widest hover:bg-blue-600 hover:text-white transition-all">
+                                Analyze Subnet
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="studio-card p-8">
-                    <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Binary bit structure & mapping</h3>
-                    <div class="space-y-8">
-                        <div id="binaryIP" class="flex flex-wrap gap-0.5"></div>
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="studio-card p-8 border-l-4 border-blue-600">
+                            <span class="text-[10px] font-black text-blue-500 uppercase">Network ID</span>
+                            <p id="resNet" class="text-4xl font-bold mono mt-2 text-white">0.0.0.0</p>
+                        </div>
+                        <div class="studio-card p-8 border-l-4 border-gray-600">
+                            <span class="text-[10px] font-black text-gray-500 uppercase">Broadcast</span>
+                            <p id="resBcast" class="text-4xl font-bold mono mt-2 text-white">0.0.0.0</p>
+                        </div>
+                    </div>
+
+                    <div class="studio-card p-8">
+                        <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Binary bit structure</h3>
+                        <div id="binaryIP" class="flex flex-wrap gap-0.5 mb-4"></div>
                         <div id="binaryMask" class="flex flex-wrap gap-0.5"></div>
-                    </div>
-                </div>
-
-                <div class="studio-card overflow-hidden">
-                    <div class="p-6 border-b border-white/5 bg-white/[0.02]">
-                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Subnet Explorer</span>
-                    </div>
-                    <div class="overflow-x-auto max-h-[400px]">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-black/50 text-gray-500 uppercase">
-                                <tr>
-                                    <th class="p-6">#</th>
-                                    <th class="p-6">Network Range</th>
-                                    <th class="p-6">Broadcast</th>
-                                    <th class="p-6">Hosts</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody" class="divide-y divide-white/5"></tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="tab-vlsm" class="hidden-tab space-y-8 animate-in fade-in duration-500">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="studio-card p-8">
+                        <h3 class="text-xs font-bold uppercase text-gray-500 mb-6 tracking-widest">Major Network</h3>
+                        <div class="space-y-4">
+                            <input type="text" id="majorIP" value="10.0.0.0" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none" placeholder="Major IP">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-gray-500 uppercase">Subnets</span>
+                                <button onclick="addVLSMSegment()" class="p-2 bg-blue-600/20 text-blue-500 rounded-lg hover:bg-blue-600 hover:text-white transition-all">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <div id="vlsmSegments" class="space-y-2">
+                                <div class="flex gap-2">
+                                    <input type="text" class="input-field flex-1 px-4 py-2 rounded-lg text-xs font-bold v-name" value="Lab-TKJ">
+                                    <input type="number" class="input-field w-20 px-4 py-2 rounded-lg text-xs font-bold v-host" value="30">
+                                </div>
+                            </div>
+                            <button onclick="calculateVLSM()" class="w-full py-4 bg-blue-600 text-white font-extrabold rounded-xl uppercase text-xs tracking-widest hover:bg-blue-700 transition-all">
+                                Generate VLSM
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div class="studio-card overflow-hidden">
+                        <div class="p-6 bg-white/5 border-b border-white/5 flex justify-between">
+                            <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Allocation Table</span>
+                            <span id="vlsmStatus" class="text-[10px] text-blue-500 font-bold">READY</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="text-gray-500 uppercase border-b border-white/5">
+                                    <tr>
+                                        <th class="p-6">Dept</th>
+                                        <th class="p-6">Need</th>
+                                        <th class="p-6">Network / CIDR</th>
+                                        <th class="p-6">Usable Range</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vlsmTableBody" class="divide-y divide-white/5 font-mono"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <footer class="mt-32 px-6 border-t border-white/5 pt-20 pb-10">
-        <div class="max-w-7xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-8">
-            <div>
-                <h2 class="text-4xl font-black italic">Argha <span class="text-blue-600">Systems.</span></h2>
-                <p class="text-gray-600 text-[10px] uppercase tracking-widest mt-2">© 2026 Argha Intelligence Systems | Professional Edition</p>
-            </div>
-            <div class="flex gap-4">
-                <i data-lucide="shield-check" class="text-blue-600"></i>
-                <i data-lucide="cpu" class="text-gray-700"></i>
-                <i data-lucide="globe" class="text-gray-700"></i>
+    <footer class="mt-20 border-t border-white/5 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-gray-600 text-[10px] font-bold uppercase tracking-[0.5em]">Argha Intelligence Systems &copy; 2026</p>
+            <div class="flex gap-4 text-gray-600">
+                <i data-lucide="shield" class="w-4 h-4"></i>
+                <i data-lucide="zap" class="w-4 h-4 text-blue-500"></i>
+                <i data-lucide="database" class="w-4 h-4"></i>
             </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-            calculate();
-            setInterval(() => document.getElementById('liveClock').innerText = new Date().toLocaleTimeString(), 1000);
-        });
-
-        function initApp() {
-            const select = document.getElementById('cidrInput');
-            for(let i=32; i>=1; i--) {
-                const opt = document.createElement('option');
-                opt.value = i; opt.textContent = `/${i} Prefix`;
-                if(i===24) opt.selected = true;
-                select.appendChild(opt);
-            }
+        // NAVIGATION LOGIC
+        function switchTab(tab) {
+            document.getElementById('tab-subnet').classList.toggle('hidden-tab', tab !== 'subnet');
+            document.getElementById('tab-vlsm').classList.toggle('hidden-tab', tab !== 'vlsm');
+            document.getElementById('btn-subnet').classList.toggle('active', tab === 'subnet');
+            document.getElementById('btn-vlsm').classList.toggle('active', tab === 'vlsm');
             lucide.createIcons();
         }
 
+        // INIT APPS
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('cidrInput');
+            for(let i=32; i>=1; i--) {
+                const opt = document.createElement('option');
+                opt.value = i; opt.textContent = `/${i} Protocol`;
+                if(i===24) opt.selected = true;
+                select.appendChild(opt);
+            }
+            calculateSubnet();
+            lucide.createIcons();
+            setInterval(() => document.getElementById('liveClock').innerText = new Date().toLocaleTimeString(), 1000);
+        });
+
+        // SHARED UTILS
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
+
+        // SUBNETTING LOGIC
+        function calculateSubnet() {
+            const ip = document.getElementById('ipInput').value;
+            const cidr = parseInt(document.getElementById('cidrInput').value);
+            if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) return;
+
+            const ipLong = ipToLong(ip);
+            const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
+            const netLong = ipLong & maskLong;
+            const bcastLong = netLong + (0xffffffffn ^ maskLong);
+
+            document.getElementById('resNet').innerText = longToIp(netLong);
+            document.getElementById('resBcast').innerText = longToIp(bcastLong);
+            
+            renderBinary(ipLong, cidr, 'binaryIP');
+            renderBinary(maskLong, cidr, 'binaryMask');
+        }
 
         function renderBinary(long, cidr, targetId) {
             const container = document.getElementById(targetId);
             const isIP = targetId.includes('IP');
+            let binStr = long.toString(2).padStart(32, '0');
             container.innerHTML = `<span class="text-[9px] w-12 text-gray-600 font-bold uppercase mr-4">${isIP ? 'IP' : 'Mask'}</span>`;
             
-            let binStr = long.toString(2).padStart(32, '0');
-            
             for(let i=0; i<32; i++) {
-                let bitType = "";
-                if(isIP) {
-                    bitType = i < cidr ? 'bit-net' : 'bit-host';
-                } else {
-                    bitType = i < cidr ? 'bit-mask' : 'bit-off';
-                }
-                
+                let bitType = isIP ? (i < cidr ? 'bit-net' : 'bit-host') : (i < cidr ? 'bit-mask' : 'bit-off');
                 container.innerHTML += `<div class="binary-bit ${bitType}">${binStr[i]}</div>`;
-                if((i+1)%8 === 0 && i !== 31) container.innerHTML += `<div class="w-3"></div>`;
-            }
-
-            if(isIP) {
-                const label = document.createElement('div');
-                label.className = "w-full flex mt-4 text-[9px] font-bold uppercase";
-                label.innerHTML = `
-                    <div style="width:${(cidr/32)*100}%" class="text-blue-500 border-l-2 border-blue-500 pl-2">Network: ${cidr} Bits</div>
-                    <div style="width:${((32-cidr)/32)*100}%" class="text-gray-500 border-r-2 border-gray-700 pr-2 text-right">Host: ${32-cidr} Bits</div>
-                `;
-                container.appendChild(label);
+                if((i+1)%8 === 0 && i !== 31) container.innerHTML += `<div class="w-2"></div>`;
             }
         }
 
-        function calculate() {
-            const ipVal = document.getElementById('ipInput').value.trim();
-            const cidr = parseInt(document.getElementById('cidrInput').value);
-            if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipVal)) return;
+        // VLSM LOGIC
+        function addVLSMSegment() {
+            const div = document.createElement('div');
+            div.className = "flex gap-2";
+            div.innerHTML = `<input type="text" class="input-field flex-1 px-4 py-2 rounded-lg text-xs font-bold v-name" placeholder="Nama Dept">
+                             <input type="number" class="input-field w-20 px-4 py-2 rounded-lg text-xs font-bold v-host" placeholder="Host">
+                             <button onclick="this.parentElement.remove()" class="text-red-500 px-1"><i data-lucide="x" class="w-4 h-4"></i></button>`;
+            document.getElementById('vlsmSegments').appendChild(div);
+            lucide.createIcons();
+        }
 
-            const ipLong = ipToLong(ipVal);
-            const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
-            const netLong = ipLong & maskLong;
-            const bcastLong = netLong + (0xffffffffn ^ maskLong);
-            const size = bcastLong - netLong + 1n;
-            const usable = size > 2n ? size - 2n : (size === 2n ? 2n : 0n);
-
-            document.getElementById('resNet').innerText = longToIp(netLong);
-            document.getElementById('resBcast').innerText = longToIp(bcastLong);
-            document.getElementById('resMask').innerText = "Subnet Mask: " + longToIp(maskLong);
-            document.getElementById('resWild').innerText = "Wildcard: " + longToIp(0xffffffffn ^ maskLong);
+        function calculateVLSM() {
+            let currentIP = ipToLong(document.getElementById('majorIP').value);
+            const names = document.querySelectorAll('.v-name');
+            const hosts = document.querySelectorAll('.v-host');
+            let data = [];
             
-            document.getElementById('totalHosts').innerText = size.toLocaleString();
-            document.getElementById('usableHosts').innerText = usable.toLocaleString();
-            
-            const first = Number(ipLong >> 24n);
-            document.getElementById('netClass').innerText = first < 128 ? 'Class A' : first < 192 ? 'Class B' : 'Class C';
-
-            renderBinary(ipLong, cidr, 'binaryIP');
-            renderBinary(maskLong, cidr, 'binaryMask');
-
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-            for(let i=0; i<15; i++) {
-                let sNet = netLong + (BigInt(i) * size);
-                if(sNet > 0xffffffffn) break;
-                let sBcast = sNet + size - 1n;
-                tbody.innerHTML += `
-                    <tr class="hover:bg-white/[0.02]">
-                        <td class="p-6 text-gray-700 font-bold">${i+1}</td>
-                        <td class="p-6">
-                            <div class="text-white font-bold mono">${longToIp(sNet)}</div>
-                            <div class="text-[9px] text-gray-600 mt-1">Range: ${longToIp(sNet+1n)} - ${longToIp(sBcast-1n)}</div>
-                        </td>
-                        <td class="p-6 text-gray-400 mono">${longToIp(sBcast)}</td>
-                        <td class="p-6 text-blue-500 font-bold">${usable.toLocaleString()}</td>
-                    </tr>
-                `;
+            for(let i=0; i<names.length; i++) {
+                let h = parseInt(hosts[i].value);
+                if(h > 0) data.push({ name: names[i].value || `Dept ${i+1}`, host: h });
             }
+
+            data.sort((a, b) => b.host - a.host);
+            const tbody = document.getElementById('vlsmTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(seg => {
+                let prefix = 32 - Math.ceil(Math.log2(seg.host + 2));
+                let size = BigInt(Math.pow(2, 32 - prefix));
+                let netID = currentIP;
+                let bcast = netID + size - 1n;
+
+                tbody.innerHTML += `<tr>
+                    <td class="p-6 text-white font-bold">${seg.name}</td>
+                    <td class="p-6 text-gray-500">${seg.host}</td>
+                    <td class="p-6 text-blue-500 font-bold">${longToIp(netID)}/${prefix}</td>
+                    <td class="p-6 text-gray-400">${longToIp(netID+1n)} - ${longToIp(bcast-1n)}</td>
+                </tr>`;
+                currentIP += size;
+            });
+            document.getElementById('vlsmStatus').innerText = "CALCULATION COMPLETE";
         }
     </script>
 </body>
