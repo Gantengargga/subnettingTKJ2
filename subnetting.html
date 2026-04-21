@@ -3,81 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Argha Systems | Network Suite Pro</title>
+    <title>Argha Systems | Network & Engineering Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap');
         
-        :root {
-            --brand: #ffffff;
-            --accent: #3b82f6;
-        }
-
-        body {
-            background-color: #000000;
-            color: var(--brand);
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .studio-card {
-            background: linear-gradient(145deg, #111111 0%, #050505 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 32px;
-        }
-
-        .input-field {
-            background: #0d0d0d !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-        }
-
+        :root { --brand: #ffffff; --accent: #3b82f6; }
+        body { background-color: #000000; color: var(--brand); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .studio-card { background: linear-gradient(145deg, #111111 0%, #050505 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        .input-field { background: #0d0d0d !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: white !important; }
         .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        .tab-btn { padding: 12px 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #4b5563; transition: all 0.3s; position: relative; }
+        .tab-btn.active { color: white; }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent); }
 
-        .glass-header {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-btn {
-            position: relative;
-            padding: 10px 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #4b5563;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active {
-            color: white;
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 20%;
-            width: 60%;
-            height: 2px;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        .binary-bit {
-            display: flex; align-items: center; justify-content: center;
-            width: 18px; height: 22px; margin: 1px; border-radius: 4px;
-            font-size: 10px; font-weight: bold;
-        }
+        .binary-bit { display: flex; align-items: center; justify-content: center; width: 20px; height: 24px; margin: 1px; border-radius: 4px; font-size: 10px; font-weight: bold; }
         .bit-net { background: #2563eb; color: white; }
         .bit-host { background: #1e293b; color: #475569; }
-        .bit-mask { background: #475569; color: white; }
-        .bit-off { background: #0f172a; color: #1e293b; }
-
         .hidden-tab { display: none; }
+        
+        /* Calculator Styles */
+        .calc-btn { background: #1a1a1a; border-radius: 12px; padding: 15px; font-weight: bold; font-family: 'JetBrains Mono'; transition: all 0.2s; }
+        .calc-btn:hover { background: #333; }
+        .calc-btn.op { color: #3b82f6; }
     </style>
 </head>
 <body class="pb-20">
@@ -85,108 +36,89 @@
     <nav class="glass-header sticky top-0 z-50 px-6 py-2">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <i data-lucide="cpu" class="text-white w-5 h-5"></i>
-                </div>
-                <h1 class="text-xl font-black italic tracking-tighter">Argha <span class="text-blue-500 not-italic">Systems.</span></h1>
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center"><i data-lucide="terminal" class="text-white w-5 h-5"></i></div>
+                <h1 class="text-xl font-black italic tracking-tighter">Argha <span class="text-blue-500 not-italic uppercase text-xs tracking-[0.3em] ml-2">Systems</span></h1>
             </div>
 
             <div class="flex bg-white/5 p-1 rounded-xl">
                 <button onclick="switchTab('subnet')" id="btn-subnet" class="tab-btn active">Subnetting</button>
-                <button onclick="switchTab('vlsm')" id="btn-vlsm" class="tab-btn">VLSM Planner</button>
+                <button onclick="switchTab('vlsm')" id="btn-vlsm" class="tab-btn">VLSM</button>
+                <button onclick="switchTab('math')" id="btn-math" class="tab-btn">Calculator</button>
             </div>
-
-            <div id="liveClock" class="hidden md:block text-[10px] mono text-gray-500">00:00:00</div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 mt-12">
         
-        <div id="tab-subnet" class="space-y-8 animate-in fade-in duration-500">
+        <div id="tab-subnet" class="space-y-6 animate-in fade-in">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-4 space-y-6">
                     <div class="studio-card p-8">
-                        <h3 class="text-xs font-bold uppercase text-gray-500 mb-6 tracking-widest">Network Config</h3>
+                        <h3 class="text-[10px] font-bold text-blue-500 uppercase mb-6 tracking-widest">Network Input</h3>
                         <div class="space-y-4">
-                            <div>
-                                <label class="text-[10px] font-bold text-gray-600 mb-2 block uppercase">IP Address</label>
-                                <input type="text" id="ipInput" value="192.168.1.1" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-gray-600 mb-2 block uppercase">Prefix</label>
-                                <select id="cidrInput" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none cursor-pointer"></select>
-                            </div>
-                            <button onclick="calculateSubnet()" class="w-full py-4 bg-white text-black font-extrabold rounded-xl uppercase text-xs tracking-widest hover:bg-blue-600 hover:text-white transition-all">
-                                Analyze Subnet
-                            </button>
+                            <input type="text" id="ipInput" value="192.168.1.1" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none" placeholder="IP Address">
+                            <select id="cidrInput" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none cursor-pointer"></select>
+                            <button onclick="calculateSubnet()" class="w-full py-4 bg-blue-600 text-white font-black rounded-xl uppercase text-xs tracking-widest hover:bg-blue-700 transition-all">Execute Analysis</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="studio-card p-8 border-l-4 border-blue-600">
-                            <span class="text-[10px] font-black text-blue-500 uppercase">Network ID</span>
-                            <p id="resNet" class="text-4xl font-bold mono mt-2 text-white">0.0.0.0</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="studio-card p-6">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase">Subnet Mask</span>
+                            <p id="resMask" class="text-xl font-bold mono text-white mt-1">-</p>
                         </div>
-                        <div class="studio-card p-8 border-l-4 border-gray-600">
-                            <span class="text-[10px] font-black text-gray-500 uppercase">Broadcast</span>
-                            <p id="resBcast" class="text-4xl font-bold mono mt-2 text-white">0.0.0.0</p>
+                        <div class="studio-card p-6">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase">Wildcard Mask</span>
+                            <p id="resWild" class="text-xl font-bold mono text-white mt-1">-</p>
+                        </div>
+                        <div class="studio-card p-6">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase">Usable Hosts</span>
+                            <p id="resHosts" class="text-xl font-bold mono text-blue-500 mt-1">-</p>
                         </div>
                     </div>
 
                     <div class="studio-card p-8">
-                        <h3 class="text-xs font-bold uppercase text-gray-500 mb-6">Binary bit structure</h3>
-                        <div id="binaryIP" class="flex flex-wrap gap-0.5 mb-4"></div>
-                        <div id="binaryMask" class="flex flex-wrap gap-0.5"></div>
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <span class="badge-status bg-blue-500/10 text-blue-500 text-[10px] px-3 py-1 rounded-full font-bold">NETWORK ID</span>
+                                <p id="resNet" class="text-4xl font-black mono mt-2">0.0.0.0</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="badge-status bg-red-500/10 text-red-500 text-[10px] px-3 py-1 rounded-full font-bold">BROADCAST</span>
+                                <p id="resBcast" class="text-4xl font-black mono mt-2 text-gray-400">0.0.0.0</p>
+                            </div>
+                        </div>
+                        <div class="pt-6 border-t border-white/5">
+                            <span class="text-[9px] text-gray-500 font-bold uppercase block mb-4">Binary Breakdown</span>
+                            <div id="binaryIP" class="flex flex-wrap gap-1 mb-3"></div>
+                            <div id="binaryMask" class="flex flex-wrap gap-1"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="tab-vlsm" class="hidden-tab space-y-8 animate-in fade-in duration-500">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4 space-y-6">
-                    <div class="studio-card p-8">
-                        <h3 class="text-xs font-bold uppercase text-gray-500 mb-6 tracking-widest">Major Network</h3>
-                        <div class="space-y-4">
-                            <input type="text" id="majorIP" value="10.0.0.0" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none" placeholder="Major IP">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-bold text-gray-500 uppercase">Subnets</span>
-                                <button onclick="addVLSMSegment()" class="p-2 bg-blue-600/20 text-blue-500 rounded-lg hover:bg-blue-600 hover:text-white transition-all">
-                                    <i data-lucide="plus" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                            <div id="vlsmSegments" class="space-y-2">
-                                <div class="flex gap-2">
-                                    <input type="text" class="input-field flex-1 px-4 py-2 rounded-lg text-xs font-bold v-name" value="Lab-TKJ">
-                                    <input type="number" class="input-field w-20 px-4 py-2 rounded-lg text-xs font-bold v-host" value="30">
-                                </div>
-                            </div>
-                            <button onclick="calculateVLSM()" class="w-full py-4 bg-blue-600 text-white font-extrabold rounded-xl uppercase text-xs tracking-widest hover:bg-blue-700 transition-all">
-                                Generate VLSM
-                            </button>
+        <div id="tab-vlsm" class="hidden-tab space-y-6">
+            <div class="studio-card p-8">
+                <div class="flex flex-col md:flex-row gap-6 items-start">
+                    <div class="w-full md:w-1/3 space-y-4">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest">VLSM Infrastructure</h3>
+                        <input type="text" id="majorIP" value="192.168.100.0" class="input-field w-full px-5 py-3 rounded-xl font-bold mono outline-none" placeholder="Major IP">
+                        <div id="vlsmSegments" class="space-y-2">
+                            <div class="flex gap-2"><input type="text" class="input-field flex-1 px-4 py-2 rounded-lg text-xs font-bold v-name" value="Lab-A"> <input type="number" class="input-field w-20 px-4 py-2 rounded-lg text-xs font-bold v-host" value="60"></div>
                         </div>
+                        <button onclick="addVLSMSegment()" class="w-full py-2 border border-dashed border-gray-700 rounded-lg text-[10px] uppercase font-bold hover:bg-white/5 transition-all">+ Add Department</button>
+                        <button onclick="calculateVLSM()" class="w-full py-4 bg-blue-600 text-white font-black rounded-xl uppercase text-xs">Generate Plan</button>
                     </div>
-                </div>
-
-                <div class="lg:col-span-8">
-                    <div class="studio-card overflow-hidden">
-                        <div class="p-6 bg-white/5 border-b border-white/5 flex justify-between">
-                            <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Allocation Table</span>
-                            <span id="vlsmStatus" class="text-[10px] text-blue-500 font-bold">READY</span>
-                        </div>
+                    <div class="w-full md:w-2/3">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs">
+                            <table class="w-full text-left text-[11px] font-mono">
                                 <thead class="text-gray-500 uppercase border-b border-white/5">
-                                    <tr>
-                                        <th class="p-6">Dept</th>
-                                        <th class="p-6">Need</th>
-                                        <th class="p-6">Network / CIDR</th>
-                                        <th class="p-6">Usable Range</th>
-                                    </tr>
+                                    <tr><th class="pb-4">Name</th><th class="pb-4">Allocated</th><th class="pb-4">Network/CIDR</th><th class="pb-4">Range</th><th class="pb-4">Broadcast</th></tr>
                                 </thead>
-                                <tbody id="vlsmTableBody" class="divide-y divide-white/5 font-mono"></tbody>
+                                <tbody id="vlsmTableBody" class="divide-y divide-white/5"></tbody>
                             </table>
                         </div>
                     </div>
@@ -194,48 +126,64 @@
             </div>
         </div>
 
-    </main>
-
-    <footer class="mt-20 border-t border-white/5 py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <p class="text-gray-600 text-[10px] font-bold uppercase tracking-[0.5em]">Argha Intelligence Systems &copy; 2026</p>
-            <div class="flex gap-4 text-gray-600">
-                <i data-lucide="shield" class="w-4 h-4"></i>
-                <i data-lucide="zap" class="w-4 h-4 text-blue-500"></i>
-                <i data-lucide="database" class="w-4 h-4"></i>
+        <div id="tab-math" class="hidden-tab">
+            <div class="max-w-md mx-auto studio-card p-8">
+                <div class="bg-black/50 p-6 rounded-2xl mb-6 text-right">
+                    <div id="calcHistory" class="text-xs text-gray-600 mono h-4"></div>
+                    <div id="calcDisplay" class="text-4xl font-bold mono text-white overflow-hidden">0</div>
+                </div>
+                <div class="grid grid-cols-4 gap-3">
+                    <button onclick="calcClear()" class="calc-btn text-red-500">C</button>
+                    <button onclick="calcOp('/')" class="calc-btn op">/</button>
+                    <button onclick="calcOp('*')" class="calc-btn op">x</button>
+                    <button onclick="calcOp('-')" class="calc-btn op">-</button>
+                    
+                    <button onclick="calcNum('7')" class="calc-btn">7</button>
+                    <button onclick="calcNum('8')" class="calc-btn">8</button>
+                    <button onclick="calcNum('9')" class="calc-btn">9</button>
+                    <button onclick="calcOp('+')" class="calc-btn op row-span-2">+</button>
+                    
+                    <button onclick="calcNum('4')" class="calc-btn">4</button>
+                    <button onclick="calcNum('5')" class="calc-btn">5</button>
+                    <button onclick="calcNum('6')" class="calc-btn">6</button>
+                    
+                    <button onclick="calcNum('1')" class="calc-btn">1</button>
+                    <button onclick="calcNum('2')" class="calc-btn">2</button>
+                    <button onclick="calcNum('3')" class="calc-btn">3</button>
+                    <button onclick="calcEqual()" class="calc-btn bg-blue-600 text-white row-span-2">=</button>
+                    
+                    <button onclick="calcNum('0')" class="calc-btn col-span-2">0</button>
+                    <button onclick="calcNum('.')" class="calc-btn">.</button>
+                </div>
             </div>
         </div>
-    </footer>
+
+    </main>
 
     <script>
-        // NAVIGATION LOGIC
+        // --- NAVIGATION ---
         function switchTab(tab) {
-            document.getElementById('tab-subnet').classList.toggle('hidden-tab', tab !== 'subnet');
-            document.getElementById('tab-vlsm').classList.toggle('hidden-tab', tab !== 'vlsm');
-            document.getElementById('btn-subnet').classList.toggle('active', tab === 'subnet');
-            document.getElementById('btn-vlsm').classList.toggle('active', tab === 'vlsm');
+            ['subnet', 'vlsm', 'math'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.toggle('hidden-tab', t !== tab);
+                document.getElementById(`btn-${t}`).classList.toggle('active', t === tab);
+            });
             lucide.createIcons();
         }
 
-        // INIT APPS
+        // --- SUBNETTING ENGINE ---
         document.addEventListener('DOMContentLoaded', () => {
-            const select = document.getElementById('cidrInput');
+            const s = document.getElementById('cidrInput');
             for(let i=32; i>=1; i--) {
-                const opt = document.createElement('option');
-                opt.value = i; opt.textContent = `/${i} Protocol`;
-                if(i===24) opt.selected = true;
-                select.appendChild(opt);
+                const o = document.createElement('option'); o.value = i; o.textContent = `/${i} Prefix`;
+                if(i===24) o.selected = true; s.appendChild(o);
             }
             calculateSubnet();
             lucide.createIcons();
-            setInterval(() => document.getElementById('liveClock').innerText = new Date().toLocaleTimeString(), 1000);
         });
 
-        // SHARED UTILS
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
 
-        // SUBNETTING LOGIC
         function calculateSubnet() {
             const ip = document.getElementById('ipInput').value;
             const cidr = parseInt(document.getElementById('cidrInput').value);
@@ -245,9 +193,13 @@
             const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
             const netLong = ipLong & maskLong;
             const bcastLong = netLong + (0xffffffffn ^ maskLong);
+            const size = bcastLong - netLong + 1n;
 
             document.getElementById('resNet').innerText = longToIp(netLong);
             document.getElementById('resBcast').innerText = longToIp(bcastLong);
+            document.getElementById('resMask').innerText = longToIp(maskLong);
+            document.getElementById('resWild').innerText = longToIp(0xffffffffn ^ maskLong);
+            document.getElementById('resHosts').innerText = (size > 2n ? size - 2n : 0n).toLocaleString();
             
             renderBinary(ipLong, cidr, 'binaryIP');
             renderBinary(maskLong, cidr, 'binaryMask');
@@ -258,56 +210,46 @@
             const isIP = targetId.includes('IP');
             let binStr = long.toString(2).padStart(32, '0');
             container.innerHTML = `<span class="text-[9px] w-12 text-gray-600 font-bold uppercase mr-4">${isIP ? 'IP' : 'Mask'}</span>`;
-            
             for(let i=0; i<32; i++) {
-                let bitType = isIP ? (i < cidr ? 'bit-net' : 'bit-host') : (i < cidr ? 'bit-mask' : 'bit-off');
+                let bitType = isIP ? (i < cidr ? 'bit-net' : 'bit-host') : (i < cidr ? 'bit-net' : 'bit-host');
+                if(!isIP && i >= cidr) bitType = 'opacity-20';
                 container.innerHTML += `<div class="binary-bit ${bitType}">${binStr[i]}</div>`;
                 if((i+1)%8 === 0 && i !== 31) container.innerHTML += `<div class="w-2"></div>`;
             }
         }
 
-        // VLSM LOGIC
+        // --- VLSM ENGINE ---
         function addVLSMSegment() {
-            const div = document.createElement('div');
-            div.className = "flex gap-2";
-            div.innerHTML = `<input type="text" class="input-field flex-1 px-4 py-2 rounded-lg text-xs font-bold v-name" placeholder="Nama Dept">
-                             <input type="number" class="input-field w-20 px-4 py-2 rounded-lg text-xs font-bold v-host" placeholder="Host">
-                             <button onclick="this.parentElement.remove()" class="text-red-500 px-1"><i data-lucide="x" class="w-4 h-4"></i></button>`;
+            const div = document.createElement('div'); div.className = "flex gap-2";
+            div.innerHTML = `<input type="text" class="input-field flex-1 px-4 py-2 rounded-lg text-xs font-bold v-name" placeholder="Dept"> <input type="number" class="input-field w-20 px-4 py-2 rounded-lg text-xs font-bold v-host" placeholder="Host">`;
             document.getElementById('vlsmSegments').appendChild(div);
-            lucide.createIcons();
         }
 
         function calculateVLSM() {
             let currentIP = ipToLong(document.getElementById('majorIP').value);
-            const names = document.querySelectorAll('.v-name');
-            const hosts = document.querySelectorAll('.v-host');
+            const names = document.querySelectorAll('.v-name'), hosts = document.querySelectorAll('.v-host');
             let data = [];
-            
             for(let i=0; i<names.length; i++) {
-                let h = parseInt(hosts[i].value);
-                if(h > 0) data.push({ name: names[i].value || `Dept ${i+1}`, host: h });
+                let h = parseInt(hosts[i].value); if(h > 0) data.push({ name: names[i].value || `Seg ${i+1}`, host: h });
             }
-
             data.sort((a, b) => b.host - a.host);
-            const tbody = document.getElementById('vlsmTableBody');
-            tbody.innerHTML = '';
-
+            const tbody = document.getElementById('vlsmTableBody'); tbody.innerHTML = '';
             data.forEach(seg => {
                 let prefix = 32 - Math.ceil(Math.log2(seg.host + 2));
                 let size = BigInt(Math.pow(2, 32 - prefix));
-                let netID = currentIP;
-                let bcast = netID + size - 1n;
-
-                tbody.innerHTML += `<tr>
-                    <td class="p-6 text-white font-bold">${seg.name}</td>
-                    <td class="p-6 text-gray-500">${seg.host}</td>
-                    <td class="p-6 text-blue-500 font-bold">${longToIp(netID)}/${prefix}</td>
-                    <td class="p-6 text-gray-400">${longToIp(netID+1n)} - ${longToIp(bcast-1n)}</td>
-                </tr>`;
+                let netID = currentIP, bcast = netID + size - 1n;
+                tbody.innerHTML += `<tr><td class="py-4 text-blue-500 font-bold">${seg.name}</td><td>${Number(size)-2} IPs</td><td class="font-bold">${longToIp(netID)}/${prefix}</td><td class="text-gray-400">${longToIp(netID+1n)} - ${longToIp(bcast-1n)}</td><td class="text-gray-500">${longToIp(bcast)}</td></tr>`;
                 currentIP += size;
             });
-            document.getElementById('vlsmStatus').innerText = "CALCULATION COMPLETE";
         }
+
+        // --- MATH CALCULATOR LOGIC ---
+        let calcVal = "0", calcExp = "";
+        function calcNum(n) { if(calcVal === "0") calcVal = n; else calcVal += n; updateCalc(); }
+        function calcOp(op) { calcExp += calcVal + " " + op + " "; calcVal = "0"; updateCalc(); }
+        function calcClear() { calcVal = "0"; calcExp = ""; updateCalc(); }
+        function calcEqual() { try { calcVal = eval(calcExp + calcVal).toString(); calcExp = ""; } catch { calcVal = "Error"; } updateCalc(); }
+        function updateCalc() { document.getElementById('calcDisplay').innerText = calcVal; document.getElementById('calcHistory').innerText = calcExp; }
     </script>
 </body>
 </html>
