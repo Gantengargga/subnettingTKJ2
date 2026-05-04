@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argha Systems | Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        :root { --accent: #3b82f6; --bg-dark: #050505; --card-bg: rgba(17, 17, 17, 0.7); }
+        body { background-color: var(--bg-dark); color: white; font-family: 'Plus Jakarta Sans', sans-serif; background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #050505 80%); min-height: 100vh; }
+        .studio-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; }
+        .tab-btn { padding: 10px 20px; font-size: 12px; font-weight: 700; color: #64748b; border-radius: 10px; transition: all 0.3s; text-decoration: none; }
+        .tab-btn.active { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .calc-btn { background: #1a1a1a; border-radius: 12px; padding: 15px; font-weight: bold; font-family: 'JetBrains Mono'; transition: all 0.2s; }
+        .calc-btn:hover { background: #333; }
+        .calc-btn.op { color: #3b82f6; }
+        .fade-up { animation: fadeUp 0.5s ease out; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="pb-10">
+
+    <nav class="sticky top-0 z-50 px-6 py-4 border-b border-white/5 bg-black/60 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20"><i data-lucide="shield-check" class="text-white w-5 h-5"></i></div>
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-tight">ARGHA <span class="text-blue-500 italic">SYSTEMS</span></h1>
+                    <p class="text-[9px] text-gray-500 font-bold tracking-[0.2em] uppercase">Network Engineering Suite v2.0</p>
+                </div>
+            </div>
+            <div class="flex bg-white/5 p-1 rounded-2xl border border-white/5">
+                <!-- Class 'active' diletakkan di Calc -->
+                <a href="subnet.html" class="tab-btn">Subnetting</a>
+                <a href="vlsm.html" class="tab-btn">VLSM Plan</a>
+                <a href="calc.html" class="tab-btn active">Calc</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 mt-10 fade-up">
+        <div class="max-w-md mx-auto studio-card p-6 shadow-2xl">
+            <div class="bg-black p-6 rounded-2xl mb-6 text-right border border-white/5">
+                <div id="calcHistory" class="text-[10px] text-gray-600 mono h-4 mb-1"></div>
+                <div id="calcDisplay" class="text-4xl font-bold mono text-white truncate tracking-tighter">0</div>
+            </div>
+            <div class="grid grid-cols-4 gap-3">
+                <button onclick="calcClear()" class="calc-btn text-red-500 bg-red-500/5 border border-red-500/10">AC</button>
+                <button onclick="calcOp('/')" class="calc-btn op">÷</button>
+                <button onclick="calcOp('*')" class="calc-btn op">×</button>
+                <button onclick="calcOp('-')" class="calc-btn op">−</button>
+                <button onclick="calcNum('7')" class="calc-btn">7</button>
+                <button onclick="calcNum('8')" class="calc-btn">8</button>
+                <button onclick="calcNum('9')" class="calc-btn">9</button>
+                <button onclick="calcOp('+')" class="calc-btn op">+</button>
+                <button onclick="calcNum('4')" class="calc-btn">4</button>
+                <button onclick="calcNum('5')" class="calc-btn">5</button>
+                <button onclick="calcNum('6')" class="calc-btn">6</button>
+                <button onclick="calcEqual()" class="calc-btn bg-blue-600 text-white row-span-3 border-0 shadow-lg shadow-blue-600/30">=</button>
+                <button onclick="calcNum('1')" class="calc-btn">1</button>
+                <button onclick="calcNum('2')" class="calc-btn">2</button>
+                <button onclick="calcNum('3')" class="calc-btn">3</button>
+                <button onclick="calcNum('0')" class="calc-btn col-span-2">0</button>
+                <button onclick="calcNum('.')" class="calc-btn">.</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Logika KHUSUS untuk Kalkulator
+        document.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); });
+
+        let calcVal = "0", calcExp = "";
+        function calcNum(n) { if(calcVal === "0" && n !== '.') calcVal = n; else calcVal += n; updateCalc(); }
+        function calcOp(op) { calcExp += calcVal + " " + op + " "; calcVal = "0"; updateCalc(); }
+        function calcClear() { calcVal = "0"; calcExp = ""; updateCalc(); }
+        function calcEqual() { try { calcVal = eval(calcExp + calcVal).toString(); calcExp = ""; } catch { calcVal = "Error"; } updateCalc(); }
+        function updateCalc() { document.getElementById('calcDisplay').innerText = calcVal; document.getElementById('calcHistory').innerText = calcExp; }
+    </script>
+</body>
+</html>
