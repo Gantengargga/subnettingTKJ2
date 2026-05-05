@@ -16,7 +16,7 @@
             --card-bg: rgba(10, 10, 12, 0.6);
         }
 
-        /* Latar Belakang Grid Engineering */
+        /* Latar Belakang Grid */
         body { 
             background-color: var(--bg-dark); 
             color: white; 
@@ -47,7 +47,7 @@
             box-shadow: 0 8px 40px rgba(0, 240, 255, 0.05);
         }
 
-        /* Input Fields bergaya Terminal */
+        /* Input Fields */
         .input-field { 
             background: rgba(0, 0, 0, 0.5) !important; 
             border: 1px solid rgba(255, 255, 255, 0.1) !important; 
@@ -61,7 +61,7 @@
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.5), 0 0 15px rgba(0, 240, 255, 0.2);
         }
 
-        /* Navigasi Tab Modern */
+        /* Navigasi Tab */
         .tab-btn { 
             padding: 10px 24px; 
             font-size: 12px; 
@@ -73,10 +73,7 @@
             letter-spacing: 0.5px;
         }
 
-        .tab-btn:hover {
-            color: white;
-        }
-
+        .tab-btn:hover { color: white; }
         .tab-btn.active-btn { 
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(0, 240, 255, 0.1));
             color: var(--accent-glow); 
@@ -87,17 +84,14 @@
         /* Logika Penampil Tab */
         .tab-content { display: none; opacity: 0; transform: translateY(20px); }
         .tab-content.active-tab { display: block; animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        
-        @keyframes slideUpFade {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
 
         /* Elemen Visual Biner */
         .binary-bit { width: 18px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono'; font-weight: 800; transition: all 0.2s;}
         .bit-net { background: rgba(0, 240, 255, 0.15); color: var(--accent-glow); border: 1px solid rgba(0, 240, 255, 0.3); }
         .bit-host { background: rgba(255, 255, 255, 0.03); color: #475569; border: 1px solid rgba(255, 255, 255, 0.05); }
 
-        /* Kalkulator Neumorphic Dark */
+        /* Kalkulator */
         .calc-btn { background: linear-gradient(145deg, #16161a, #0d0d0f); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 18px; font-weight: 800; font-size: 1.1rem; font-family: 'JetBrains Mono'; transition: all 0.15s ease; cursor: pointer; color: #e2e8f0; box-shadow: 4px 4px 10px rgba(0,0,0,0.5), -2px -2px 10px rgba(255,255,255,0.02);}
         .calc-btn:active { transform: translateY(2px); box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); }
         .calc-btn.op { color: var(--accent-glow); }
@@ -123,7 +117,7 @@
                 </div>
             </div>
 
-            <!-- Navigasi -->
+            <!-- Menu Navigasi -->
             <div class="flex bg-black/40 p-1.5 rounded-2xl border border-white/10 shadow-inner">
                 <button onclick="switchTab('subnet')" id="btn-subnet" class="tab-btn active-btn">SUBNETTING</button>
                 <button onclick="switchTab('vlsm')" id="btn-vlsm" class="tab-btn">VLSM PLAN</button>
@@ -139,7 +133,7 @@
         <!-- ========================================== -->
         <div id="tab-subnet" class="tab-content active-tab">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Panel Input -->
+                <!-- Panel Kiri: Input & Status IP -->
                 <div class="lg:col-span-4">
                     <div class="studio-card p-8 h-full flex flex-col relative overflow-hidden">
                         <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -149,7 +143,8 @@
                             <h3 class="text-xs font-black uppercase tracking-widest text-gray-300">Konfigurasi IP</h3>
                         </div>
                         
-                        <div class="space-y-6 flex-1">
+                        <!-- Form Input IP -->
+                        <div class="space-y-6">
                             <div>
                                 <label class="text-[10px] font-black text-cyan-500/70 mb-2 block tracking-widest">ALAMAT IPv4</label>
                                 <input type="text" id="ipInput" value="192.168.1.1" oninput="calculateSubnet()" class="input-field w-full px-5 py-4 rounded-xl font-bold mono text-xl text-center">
@@ -158,13 +153,32 @@
                                 <label class="text-[10px] font-black text-cyan-500/70 mb-2 block tracking-widest">PREFIX CIDR</label>
                                 <select id="cidrInput" onchange="calculateSubnet()" class="input-field w-full px-5 py-4 rounded-xl font-bold mono cursor-pointer text-center"></select>
                             </div>
+                            
+                            <!-- Panel Baru: Informasi Status IP -->
+                            <div class="mt-8 p-5 bg-black/40 rounded-xl border border-white/5 relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <i data-lucide="info" class="w-4 h-4 text-cyan-500"></i>
+                                    <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Analisis Status IP</span>
+                                </div>
+                                <div class="space-y-3 relative z-10">
+                                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                                        <span class="text-[10px] text-gray-500 font-bold uppercase">Kelas IP</span>
+                                        <span id="ipClass" class="text-xs font-black mono text-cyan-400">--</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-[10px] text-gray-500 font-bold uppercase">Tipe Alamat</span>
+                                        <span id="ipType" class="text-xs font-black mono text-purple-400">--</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Panel Output -->
+                <!-- Panel Kanan: Hasil Kalkulasi Subnetting -->
                 <div class="lg:col-span-8 space-y-8">
-                    <!-- Info Cepat -->
+                    <!-- Info Tambahan -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         <div class="studio-card p-6 border-t-2 border-t-cyan-400">
                             <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Subnet Mask</span>
@@ -180,7 +194,7 @@
                         </div>
                     </div>
 
-                    <!-- Hasil Utama -->
+                    <!-- Hasil Utama: Network & Broadcast -->
                     <div class="studio-card p-10 relative overflow-hidden">
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
                             <i data-lucide="globe-2" class="w-64 h-64 text-cyan-400"></i>
@@ -204,7 +218,7 @@
                             </div>
                         </div>
 
-                        <!-- Binary Breakdown -->
+                        <!-- Analisis Biner -->
                         <div class="pt-8 border-t border-white/10 relative z-10">
                             <div class="flex items-center gap-3 mb-5">
                                 <i data-lucide="binary" class="w-4 h-4 text-cyan-500"></i>
@@ -314,8 +328,12 @@
 
     </main>
 
+    <!-- ========================================== -->
+    <!-- LOGIKA JAVASCRIPT -->
+    <!-- ========================================== -->
     <script>
-        // === SISTEM NAVIGASI TAB ===
+        // --- 1. Logika Navigasi Tab ---
+        // Mengganti tampilan tab berdasarkan ID yang diklik
         function switchTab(tabId) {
             const tabs = ['subnet', 'vlsm', 'math'];
             tabs.forEach(t => {
@@ -326,55 +344,98 @@
             document.getElementById(`btn-${tabId}`).classList.add('active-btn');
         }
 
-        // === LOGIKA SUBNETTING ===
+        // --- 2. Fungsi Pembantu Jaringan (Konversi IP ke Biner/Angka) ---
         const ipToLong = (ip) => ip.split('.').reduce((acc, oct) => (BigInt(acc) << 8n) + BigInt(oct), 0n);
         const longToIp = (n) => [(n >> 24n) & 0xffn, (n >> 16n) & 0xffn, (n >> 8n) & 0xffn, n & 0xffn].join('.');
 
+        // --- 3. Inisialisasi saat halaman dimuat ---
         document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+            lucide.createIcons(); // Memuat ikon
+            
+            // Membuat opsi dropdown dari /32 sampai /1 secara dinamis
             const s = document.getElementById('cidrInput');
             for(let i=32; i>=1; i--) {
                 const o = document.createElement('option'); o.value = i; o.textContent = `/${i} (Mask: ${longToIp((0xffffffffn << BigInt(32 - i)) & 0xffffffffn)})`;
                 if(i===24) o.selected = true; s.appendChild(o);
             }
-            calculateSubnet();
+            calculateSubnet(); // Menjalankan perhitungan pertama kali
         });
 
+        // --- 4. Logika Utama Subnetting & Status IP ---
         function calculateSubnet() {
             const ip = document.getElementById('ipInput').value;
             const cidr = parseInt(document.getElementById('cidrInput').value);
+            
+            // Validasi format IP dasar (hanya angka dan titik)
             if(!/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) return;
 
+            // Memisahkan IP untuk pengecekan Kelas dan Tipe
+            const octets = ip.split('.').map(Number);
+            const firstOctet = octets[0];
+            
+            // A. Deteksi Kelas IP (Aturan Jaringan Dasar)
+            let ipClass = "--";
+            if (firstOctet >= 1 && firstOctet <= 126) ipClass = "Kelas A";
+            else if (firstOctet >= 128 && firstOctet <= 191) ipClass = "Kelas B";
+            else if (firstOctet >= 192 && firstOctet <= 223) ipClass = "Kelas C";
+            else if (firstOctet >= 224 && firstOctet <= 239) ipClass = "Kelas D (Multicast)";
+            else if (firstOctet >= 240 && firstOctet <= 255) ipClass = "Kelas E (Eksperimen)";
+            else if (firstOctet === 127) ipClass = "Loopback";
+
+            // B. Deteksi Tipe Alamat IP (Public vs Private)
+            let ipType = "Public";
+            if (firstOctet === 10) ipType = "Private";
+            else if (firstOctet === 172 && octets[1] >= 16 && octets[1] <= 31) ipType = "Private";
+            else if (firstOctet === 192 && octets[1] === 168) ipType = "Private";
+            else if (firstOctet === 127) ipType = "Localhost";
+            else if (firstOctet === 169 && octets[1] === 254) ipType = "APIPA / Link-Local";
+            else if (firstOctet === 0 || firstOctet > 255) ipType = "Invalid";
+            
+            // Perbarui tampilan Kelas dan Tipe di HTML
+            document.getElementById('ipClass').innerText = ipClass;
+            document.getElementById('ipType').innerText = ipType;
+
+            // C. Kalkulasi Matematika Subnetting menggunakan Operasi Bitwise (BigInt)
             const ipLong = ipToLong(ip);
             const maskLong = (0xffffffffn << BigInt(32 - cidr)) & 0xffffffffn;
             const netLong = ipLong & maskLong;
             const bcastLong = netLong + (0xffffffffn ^ maskLong);
-            const size = bcastLong - netLong + 1n;
+            const size = bcastLong - netLong + 1n; // Total IP dalam subnet
 
+            // Perbarui tampilan Hasil Kalkulasi di HTML
             document.getElementById('resNet').innerText = longToIp(netLong);
             document.getElementById('resBcast').innerText = longToIp(bcastLong);
             document.getElementById('resMask').innerText = longToIp(maskLong);
             document.getElementById('resWild').innerText = longToIp(0xffffffffn ^ maskLong);
             document.getElementById('resHosts').innerText = (size > 2n ? size - 2n : 0n).toLocaleString();
             
+            // Render visualisasi biner
             renderBinary(ipLong, cidr, 'binaryIP', 'IP');
             renderBinary(maskLong, cidr, 'binaryMask', 'MSK');
         }
 
+        // --- 5. Fungsi Menggambar Blok Biner ---
         function renderBinary(long, cidr, targetId, label) {
             const container = document.getElementById(targetId);
-            let binStr = long.toString(2).padStart(32, '0');
+            let binStr = long.toString(2).padStart(32, '0'); // Ubah angka jadi string biner 32-bit
             container.innerHTML = `<span class="text-[10px] w-10 text-gray-500 font-black mr-3 mt-1 tracking-widest">${label}</span>`;
+            
+            // Loop 32 kali untuk mencetak setiap bit (1 atau 0)
             for(let i=0; i<32; i++) {
+                // Tentukan warna: Bit Network berwarna Cyan, Bit Host berwarna gelap
                 let bitType = (i < cidr) ? 'bit-net' : 'bit-host';
-                if(label === 'MSK' && i >= cidr) bitType = 'opacity-20';
+                if(label === 'MSK' && i >= cidr) bitType = 'opacity-20'; // Samarkan bit nol pada subnet mask
+                
                 container.innerHTML += `<div class="binary-bit ${bitType}">${binStr[i]}</div>`;
+                
+                // Tambahkan spasi pemisah setiap 8 bit (1 oktet)
                 if((i+1)%8 === 0 && i !== 31) container.innerHTML += `<div class="w-2"></div>`;
             }
         }
 
-        // === LOGIKA VLSM ===
+        // --- 6. Logika VLSM (Variable Length Subnet Mask) ---
         function addVLSMSegment() {
+            // Menambahkan baris input baru secara dinamis ke dalam DOM
             const div = document.createElement('div');
             div.className = "flex gap-2 p-3 bg-black/50 rounded-xl border border-white/10 group hover:border-purple-500/30 transition-colors animate-in slide-in-from-left duration-300";
             div.innerHTML = `<input type="text" class="bg-transparent flex-1 text-sm font-bold v-name outline-none text-white px-2" placeholder="Nama Segmen"> <div class="w-px bg-white/10 my-1"></div> <input type="number" class="bg-transparent w-20 text-sm font-bold v-host text-cyan-400 outline-none text-center" placeholder="0">`;
@@ -383,41 +444,77 @@
 
         function calculateVLSM() {
             let currentIP = ipToLong(document.getElementById('majorIP').value);
-            const names = document.querySelectorAll('.v-name'), hosts = document.querySelectorAll('.v-host');
+            const names = document.querySelectorAll('.v-name');
+            const hosts = document.querySelectorAll('.v-host');
+            
+            // Mengumpulkan data dari input
             let data = [];
             for(let i=0; i<names.length; i++) {
-                let h = parseInt(hosts[i].value); if(h > 0) data.push({ name: names[i].value || `Segmen ${i+1}`, host: h });
+                let h = parseInt(hosts[i].value); 
+                if(h > 0) data.push({ name: names[i].value || `Segmen ${i+1}`, host: h });
             }
+            
+            // Mengurutkan kebutuhan host dari yang terbesar ke terkecil (Aturan wajib VLSM)
             data.sort((a, b) => b.host - a.host);
-            const tbody = document.getElementById('vlsmTableBody'); tbody.innerHTML = '';
+            
+            const tbody = document.getElementById('vlsmTableBody'); 
+            tbody.innerHTML = '';
             
             if(data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="4" class="p-16 text-center text-gray-600 italic font-sans">Masukkan data host yang valid.</td></tr>`;
                 return;
             }
 
+            // Hitung setiap segmen
             data.forEach(seg => {
+                // Mencari prefix yang pas (32 - Log2 dari kebutuhan host + 2 untuk Network & Broadcast)
                 let prefix = 32 - Math.ceil(Math.log2(seg.host + 2));
                 let size = BigInt(Math.pow(2, 32 - prefix));
-                let netID = currentIP, bcast = netID + size - 1n;
+                
+                let netID = currentIP;
+                let bcast = netID + size - 1n;
+                
+                // Cetak ke tabel
                 tbody.innerHTML += `<tr class="hover:bg-white/5 transition-colors border-l-2 border-transparent hover:border-cyan-400">
                     <td class="p-5 text-cyan-300 font-bold">${seg.name}</td>
                     <td class="p-5 text-gray-300">${seg.host} <span class="text-gray-600 text-[10px] ml-1 uppercase">(Alo: ${Number(size)-2})</span></td>
                     <td class="p-5 font-black text-white">${longToIp(netID)}<span class="text-cyan-500">/${prefix}</span></td>
                     <td class="p-5 text-gray-400 font-bold">${longToIp(netID+1n)} <span class="text-gray-600 mx-2">-</span> ${longToIp(bcast-1n)}</td>
                 </tr>`;
+                
+                // Majukan IP awal untuk segmen berikutnya
                 currentIP += size;
             });
         }
 
-        // === LOGIKA KALKULATOR ===
+        // --- 7. Logika Kalkulator Matematika ---
         let calcVal = "0", calcExp = "";
-        function calcNum(n) { if(calcVal === "0" && n !== '.') calcVal = n; else calcVal += n; updateCalc(); }
-        function calcOp(op) { calcExp += calcVal + " " + op + " "; calcVal = "0"; updateCalc(); }
-        function calcClear() { calcVal = "0"; calcExp = ""; updateCalc(); }
-        function calcEqual() { try { calcVal = eval(calcExp + calcVal).toString(); calcExp = ""; } catch { calcVal = "Error"; } updateCalc(); }
+        function calcNum(n) { 
+            if(calcVal === "0" && n !== '.') calcVal = n; 
+            else calcVal += n; 
+            updateCalc(); 
+        }
+        function calcOp(op) { 
+            calcExp += calcVal + " " + op + " "; 
+            calcVal = "0"; 
+            updateCalc(); 
+        }
+        function calcClear() { 
+            calcVal = "0"; 
+            calcExp = ""; 
+            updateCalc(); 
+        }
+        function calcEqual() { 
+            try { 
+                calcVal = eval(calcExp + calcVal).toString(); 
+                calcExp = ""; 
+            } catch { 
+                calcVal = "Error"; 
+            } 
+            updateCalc(); 
+        }
         function updateCalc() { 
-            // Batasi panjang teks agar tidak tumpah
+            // Batasi teks maksimal 10 karakter agar tidak melebihi lebar layar kalkulator
             let display = calcVal;
             if(display.length > 10) display = display.substring(0, 10);
             document.getElementById('calcDisplay').innerText = display; 
